@@ -1,8 +1,8 @@
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Textarea } from '@/components/ui/textarea'
-import { Label } from '@/components/ui/label'
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Label } from "@/components/ui/label";
 
 export default function ProfilePage() {
   return (
@@ -27,7 +27,11 @@ export default function ProfilePage() {
               </div>
               <div className="space-y-2">
                 <Label htmlFor="email">Email</Label>
-                <Input id="email" type="email" placeholder="john.doe@example.com" />
+                <Input
+                  id="email"
+                  type="email"
+                  placeholder="john.doe@example.com"
+                />
               </div>
               <div className="space-y-2">
                 <Label htmlFor="phone">Phone</Label>
@@ -72,5 +76,5 @@ export default function ProfilePage() {
         </CardContent>
       </Card>
     </div>
-  )
+  );
 }

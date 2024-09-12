@@ -1,34 +1,58 @@
-"use client"
+"use client";
 
-import { useState } from 'react'
-import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
-import { Textarea } from '@/components/ui/textarea'
-import { FileIcon, Link2Icon, Trash2Icon } from 'lucide-react'
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import { FileIcon, Link2Icon, Trash2Icon } from "lucide-react";
 
 export default function ResourceSharing() {
   const [resources, setResources] = useState([
-    { id: 1, title: 'Introduction to React', type: 'link', url: 'https://reactjs.org/', description: 'Official React documentation' },
-    { id: 2, title: 'JavaScript: The Good Parts', type: 'file', url: '/path/to/file.pdf', description: 'Book on JavaScript best practices' },
-  ])
-  const [newResource, setNewResource] = useState({ title: '', type: 'link', url: '', description: '' })
+    {
+      id: 1,
+      title: "Introduction to React",
+      type: "link",
+      url: "https://reactjs.org/",
+      description: "Official React documentation",
+    },
+    {
+      id: 2,
+      title: "JavaScript: The Good Parts",
+      type: "file",
+      url: "/path/to/file.pdf",
+      description: "Book on JavaScript best practices",
+    },
+  ]);
+  const [newResource, setNewResource] = useState({
+    title: "",
+    type: "link",
+    url: "",
+    description: "",
+  });
 
   const handleInputChange = (e) => {
-    const { name, value } = e.target
-    setNewResource(prev => ({ ...prev, [name]: value }))
-  }
+    const { name, value } = e.target;
+    setNewResource((prev) => ({ ...prev, [name]: value }));
+  };
 
   const addResource = (e) => {
-    e.preventDefault()
-    setResources([...resources, { id: Date.now(), ...newResource }])
-    setNewResource({ title: '', type: 'link', url: '', description: '' })
-  }
+    e.preventDefault();
+    setResources([...resources, { id: Date.now(), ...newResource }]);
+    setNewResource({ title: "", type: "link", url: "", description: "" });
+  };
 
   const deleteResource = (id) => {
-    setResources(resources.filter(resource => resource.id !== id))
-  }
+    setResources(resources.filter((resource) => resource.id !== id));
+  };
 
   return (
     <div className="container mx-auto py-10 px-4 sm:px-6 lg:px-8">
@@ -37,7 +61,9 @@ export default function ResourceSharing() {
       <Card className="mb-8">
         <CardHeader>
           <CardTitle>Add New Resource</CardTitle>
-          <CardDescription>Share helpful links or files with your mentees</CardDescription>
+          <CardDescription>
+            Share helpful links or files with your mentees
+          </CardDescription>
         </CardHeader>
         <CardContent>
           <form onSubmit={addResource} className="space-y-4">
@@ -97,23 +123,36 @@ export default function ResourceSharing() {
             <CardHeader>
               <div className="flex items-center justify-between">
                 <div className="flex items-center space-x-2">
-                  {resource.type === 'link' ? <Link2Icon className="h-5 w-5" /> : <FileIcon className="h-5 w-5" />}
+                  {resource.type === "link" ? (
+                    <Link2Icon className="h-5 w-5" />
+                  ) : (
+                    <FileIcon className="h-5 w-5" />
+                  )}
                   <CardTitle>{resource.title}</CardTitle>
                 </div>
-                <Button variant="destructive" size="icon" onClick={() => deleteResource(resource.id)}>
+                <Button
+                  variant="destructive"
+                  size="icon"
+                  onClick={() => deleteResource(resource.id)}
+                >
                   <Trash2Icon className="h-4 w-4" />
                 </Button>
               </div>
             </CardHeader>
             <CardContent>
               <p>{resource.description}</p>
-              <a href={resource.url} target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline">
-                {resource.type === 'link' ? 'Visit Link' : 'Download File'}
+              <a
+                href={resource.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-blue-500 hover:underline"
+              >
+                {resource.type === "link" ? "Visit Link" : "Download File"}
               </a>
             </CardContent>
           </Card>
         ))}
       </div>
     </div>
-  )
+  );
 }

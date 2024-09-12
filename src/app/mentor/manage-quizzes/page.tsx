@@ -1,35 +1,79 @@
-"use client"
+"use client";
 
-import { useState } from 'react'
-import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
-import { Textarea } from '@/components/ui/textarea'
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
-import { PlusCircle, Pencil, Trash2 } from 'lucide-react'
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { PlusCircle, Pencil, Trash2 } from "lucide-react";
 
 const initialQuizzes = [
-  { id: 1, title: "Web Development Fundamentals", questionCount: 10, lastUpdated: "2023-07-01" },
-  { id: 2, title: "JavaScript Basics", questionCount: 15, lastUpdated: "2023-07-05" },
-  { id: 3, title: "React Essentials", questionCount: 12, lastUpdated: "2023-07-10" },
-]
+  {
+    id: 1,
+    title: "Web Development Fundamentals",
+    questionCount: 10,
+    lastUpdated: "2023-07-01",
+  },
+  {
+    id: 2,
+    title: "JavaScript Basics",
+    questionCount: 15,
+    lastUpdated: "2023-07-05",
+  },
+  {
+    id: 3,
+    title: "React Essentials",
+    questionCount: 12,
+    lastUpdated: "2023-07-10",
+  },
+];
 
 export default function ManageQuizzes() {
-  const [quizzes, setQuizzes] = useState(initialQuizzes)
-  const [newQuiz, setNewQuiz] = useState({ title: '', questions: [] })
-  const [isDialogOpen, setIsDialogOpen] = useState(false)
+  const [quizzes, setQuizzes] = useState(initialQuizzes);
+  const [newQuiz, setNewQuiz] = useState({ title: "", questions: [] });
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   const addQuiz = () => {
-    setQuizzes([...quizzes, { ...newQuiz, id: quizzes.length + 1, questionCount: newQuiz.questions.length, lastUpdated: new Date().toISOString().split('T')[0] }])
-    setNewQuiz({ title: '', questions: [] })
-    setIsDialogOpen(false)
-  }
+    setQuizzes([
+      ...quizzes,
+      {
+        ...newQuiz,
+        id: quizzes.length + 1,
+        questionCount: newQuiz.questions.length,
+        lastUpdated: new Date().toISOString().split("T")[0],
+      },
+    ]);
+    setNewQuiz({ title: "", questions: [] });
+    setIsDialogOpen(false);
+  };
 
   const deleteQuiz = (id) => {
-    setQuizzes(quizzes.filter(quiz => quiz.id !== id))
-  }
+    setQuizzes(quizzes.filter((quiz) => quiz.id !== id));
+  };
 
   return (
     <div className="container mx-auto py-10 px-4 sm:px-6 lg:px-8">
@@ -49,7 +93,9 @@ export default function ManageQuizzes() {
               <DialogContent>
                 <DialogHeader>
                   <DialogTitle>Create New Quiz</DialogTitle>
-                  <DialogDescription>Add a new quiz to your collection.</DialogDescription>
+                  <DialogDescription>
+                    Add a new quiz to your collection.
+                  </DialogDescription>
                 </DialogHeader>
                 <div className="grid gap-4 py-4">
                   <div>
@@ -57,15 +103,22 @@ export default function ManageQuizzes() {
                     <Input
                       id="title"
                       value={newQuiz.title}
-                      onChange={(e) => setNewQuiz({...newQuiz, title: e.target.value})}
+                      onChange={(e) =>
+                        setNewQuiz({ ...newQuiz, title: e.target.value })
+                      }
                     />
                   </div>
                   <div>
                     <Label htmlFor="questions">Questions (one per line)</Label>
                     <Textarea
                       id="questions"
-                      value={newQuiz.questions.join('\n')}
-                      onChange={(e) => setNewQuiz({...newQuiz, questions: e.target.value.split('\n')})}
+                      value={newQuiz.questions.join("\n")}
+                      onChange={(e) =>
+                        setNewQuiz({
+                          ...newQuiz,
+                          questions: e.target.value.split("\n"),
+                        })
+                      }
                       rows={5}
                     />
                   </div>
@@ -98,7 +151,11 @@ export default function ManageQuizzes() {
                       <Button variant="outline" size="icon">
                         <Pencil className="h-4 w-4" />
                       </Button>
-                      <Button variant="outline" size="icon" onClick={() => deleteQuiz(quiz.id)}>
+                      <Button
+                        variant="outline"
+                        size="icon"
+                        onClick={() => deleteQuiz(quiz.id)}
+                      >
                         <Trash2 className="h-4 w-4" />
                       </Button>
                     </div>
@@ -110,5 +167,5 @@ export default function ManageQuizzes() {
         </CardContent>
       </Card>
     </div>
-  )
+  );
 }

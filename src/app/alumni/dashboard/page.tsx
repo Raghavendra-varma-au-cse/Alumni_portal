@@ -1,99 +1,236 @@
-"use client"
+"use client";
 
-import { useState } from 'react'
-import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { Calendar, Briefcase, Users, BookOpen, MessageSquare, PlusCircle, GraduationCap, TrendingUp, DollarSign, Bell, FileText, Award } from 'lucide-react'
-import Link from 'next/link'
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
-import { Textarea } from '@/components/ui/textarea'
-import { Progress } from '@/components/ui/progress'
-import { toast } from '@/components/ui/use-toast'
-import { Badge } from '@/components/ui/badge'
-import { Switch } from '@/components/ui/switch'
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import {
+  Calendar,
+  Briefcase,
+  Users,
+  BookOpen,
+  MessageSquare,
+  PlusCircle,
+  GraduationCap,
+  TrendingUp,
+  DollarSign,
+  Bell,
+  FileText,
+  Award,
+  MapPin,
+  Newspaper,
+  Video,
+  Gift,
+} from "lucide-react";
+import Link from "next/link";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Textarea } from "@/components/ui/textarea";
+import { Progress } from "@/components/ui/progress";
+import { toast } from "@/components/ui/use-toast";
+import { Badge } from "@/components/ui/badge";
+import { Switch } from "@/components/ui/switch";
 
 export default function AlumniDashboard() {
   const [upcomingEvents, setUpcomingEvents] = useState([
-    { id: 1, title: "Alumni Networking Night", date: "2023-07-20", time: "19:00" },
+    {
+      id: 1,
+      title: "Alumni Networking Night",
+      date: "2023-07-20",
+      time: "19:00",
+    },
     { id: 2, title: "Career Fair", date: "2023-07-25", time: "10:00" },
-    { id: 3, title: "Mentorship Program Kickoff", date: "2023-07-30", time: "14:00" },
-  ])
+    {
+      id: 3,
+      title: "Mentorship Program Kickoff",
+      date: "2023-07-30",
+      time: "14:00",
+    },
+  ]);
 
   const [jobPostings, setJobPostings] = useState([
-    { id: 1, title: "Software Engineer", company: "Tech Corp", location: "San Francisco, CA" },
-    { id: 2, title: "Data Analyst", company: "Data Insights Inc.", location: "New York, NY" },
-    { id: 3, title: "Product Manager", company: "Innovate Co.", location: "Remote" },
-  ])
+    {
+      id: 1,
+      title: "Software Engineer",
+      company: "Tech Corp",
+      location: "San Francisco, CA",
+    },
+    {
+      id: 2,
+      title: "Data Analyst",
+      company: "Data Insights Inc.",
+      location: "New York, NY",
+    },
+    {
+      id: 3,
+      title: "Product Manager",
+      company: "Innovate Co.",
+      location: "Remote",
+    },
+  ]);
 
   const [newEventRequest, setNewEventRequest] = useState({
-    title: '',
-    date: '',
-    time: '',
-    description: '',
-    expectedAttendees: ''
-  })
+    title: "",
+    date: "",
+    time: "",
+    description: "",
+    expectedAttendees: "",
+  });
 
   const [newJobPostRequest, setNewJobPostRequest] = useState({
-    title: '',
-    company: '',
-    location: '',
-    description: '',
-    requirements: '',
-    salary: ''
-  })
+    title: "",
+    company: "",
+    location: "",
+    description: "",
+    requirements: "",
+    salary: "",
+  });
 
-  const [donationGoal, setDonationGoal] = useState(10000)
-  const [currentDonations, setCurrentDonations] = useState(6500)
+  const [donationGoal, setDonationGoal] = useState(10000);
+  const [currentDonations, setCurrentDonations] = useState(6500);
 
   const [skills, setSkills] = useState([
-    { name: 'Leadership', level: 80 },
-    { name: 'Communication', level: 90 },
-    { name: 'Problem Solving', level: 85 },
-    { name: 'Teamwork', level: 95 },
-  ])
+    { name: "Leadership", level: 80 },
+    { name: "Communication", level: 90 },
+    { name: "Problem Solving", level: 85 },
+    { name: "Teamwork", level: 95 },
+  ]);
 
   const [notifications, setNotifications] = useState([
     { id: 1, message: "New job posting in your field", read: false },
     { id: 2, message: "Upcoming alumni event next week", read: false },
     { id: 3, message: "Your mentor request has been approved", read: true },
-  ])
+  ]);
+
+  const [mentorshipStatus, setMentorshipStatus] = useState({
+    isMentor: false,
+    requestStatus: "none", // 'none', 'pending', 'approved', 'rejected'
+  });
+
+  const [newsArticles, setNewsArticles] = useState([
+    {
+      id: 1,
+      title: "Alumni Spotlight: Sarah Johnson's Tech Startup Success",
+      date: "2023-07-15",
+    },
+    {
+      id: 2,
+      title: "University Launches New Research Center",
+      date: "2023-07-10",
+    },
+    { id: 3, title: "Upcoming Homecoming Week Activities", date: "2023-07-05" },
+  ]);
+
+  const [webinars, setWebinars] = useState([
+    {
+      id: 1,
+      title: "Navigating Career Transitions",
+      date: "2023-07-22",
+      time: "18:00",
+    },
+    {
+      id: 2,
+      title: "Personal Branding in the Digital Age",
+      date: "2023-07-29",
+      time: "14:00",
+    },
+    {
+      id: 3,
+      title: "Financial Planning for Young Professionals",
+      date: "2023-08-05",
+      time: "19:00",
+    },
+  ]);
+
+  const [perks, setPerks] = useState([
+    { id: 1, title: "20% off at University Bookstore", code: "ALUM20" },
+    {
+      id: 2,
+      title: "Free access to online courses",
+      link: "https://courses.university.edu",
+    },
+    { id: 3, title: "Discounted gym membership", code: "ALUMFIT" },
+  ]);
 
   const handleNewEventRequestChange = (field, value) => {
-    setNewEventRequest(prev => ({ ...prev, [field]: value }))
-  }
+    setNewEventRequest((prev) => ({ ...prev, [field]: value }));
+  };
 
   const submitNewEventRequest = () => {
-    console.log('Submitting new event request:', newEventRequest)
+    console.log("Submitting new event request:", newEventRequest);
     toast({
       title: "Event Request Submitted",
       description: "Your event request has been sent for approval.",
-    })
-    setNewEventRequest({ title: '', date: '', time: '', description: '', expectedAttendees: '' })
-  }
+    });
+    setNewEventRequest({
+      title: "",
+      date: "",
+      time: "",
+      description: "",
+      expectedAttendees: "",
+    });
+  };
 
   const handleNewJobPostRequestChange = (field, value) => {
-    setNewJobPostRequest(prev => ({ ...prev, [field]: value }))
-  }
+    setNewJobPostRequest((prev) => ({ ...prev, [field]: value }));
+  };
 
   const submitNewJobPostRequest = () => {
-    console.log('Submitting new job post request:', newJobPostRequest)
+    console.log("Submitting new job post request:", newJobPostRequest);
     toast({
       title: "Job Post Request Submitted",
       description: "Your job post request has been sent for approval.",
-    })
-    setNewJobPostRequest({ title: '', company: '', location: '', description: '', requirements: '', salary: '' })
-  }
+    });
+    setNewJobPostRequest({
+      title: "",
+      company: "",
+      location: "",
+      description: "",
+      requirements: "",
+      salary: "",
+    });
+  };
 
   const markNotificationAsRead = (id) => {
-    setNotifications(notifications.map(notif => 
-      notif.id === id ? { ...notif, read: true } : notif
-    ))
-  }
+    setNotifications(
+      notifications.map((notif) =>
+        notif.id === id ? { ...notif, read: true } : notif,
+      ),
+    );
+  };
+
+  const handleMentorRequest = () => {
+    setMentorshipStatus({ ...mentorshipStatus, requestStatus: "pending" });
+    toast({
+      title: "Mentor Request Sent",
+      description:
+        "Your request to become a mentor has been sent to the admin for approval.",
+    });
+  };
 
   return (
     <div className="container mx-auto py-10 px-4 sm:px-6 lg:px-8">
@@ -112,10 +249,21 @@ export default function AlumniDashboard() {
               </DialogHeader>
               <div className="space-y-4">
                 {notifications.map((notif) => (
-                  <div key={notif.id} className="flex items-center justify-between">
-                    <p className={`${notif.read ? 'text-muted-foreground' : 'font-medium'}`}>{notif.message}</p>
+                  <div
+                    key={notif.id}
+                    className="flex items-center justify-between"
+                  >
+                    <p
+                      className={`${notif.read ? "text-muted-foreground" : "font-medium"}`}
+                    >
+                      {notif.message}
+                    </p>
                     {!notif.read && (
-                      <Button variant="outline" size="sm" onClick={() => markNotificationAsRead(notif.id)}>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => markNotificationAsRead(notif.id)}
+                      >
                         Mark as Read
                       </Button>
                     )}
@@ -134,12 +282,16 @@ export default function AlumniDashboard() {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Events Attended</CardTitle>
+            <CardTitle className="text-sm font-medium">
+              Events Attended
+            </CardTitle>
             <Calendar className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">7</div>
-            <p className="text-xs text-muted-foreground">in the last 6 months</p>
+            <p className="text-xs text-muted-foreground">
+              in the last 6 months
+            </p>
           </CardContent>
         </Card>
         <Card>
@@ -164,7 +316,9 @@ export default function AlumniDashboard() {
         </Card>
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Network Connections</CardTitle>
+            <CardTitle className="text-sm font-medium">
+              Network Connections
+            </CardTitle>
             <Users className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
@@ -181,20 +335,30 @@ export default function AlumniDashboard() {
           <TabsTrigger value="mentorship">Mentorship</TabsTrigger>
           <TabsTrigger value="giving">Giving Back</TabsTrigger>
           <TabsTrigger value="skills">Skills & Achievements</TabsTrigger>
+          <TabsTrigger value="news">News & Updates</TabsTrigger>
+          <TabsTrigger value="webinars">Webinars</TabsTrigger>
+          <TabsTrigger value="perks">Alumni Perks</TabsTrigger>
         </TabsList>
         <TabsContent value="events">
           <Card>
             <CardHeader>
               <CardTitle>Events</CardTitle>
-              <CardDescription>Stay connected with your alma mater</CardDescription>
+              <CardDescription>
+                Stay connected with your alma mater
+              </CardDescription>
             </CardHeader>
             <CardContent>
               <ul className="space-y-4">
                 {upcomingEvents.map((event) => (
-                  <li key={event.id} className="flex items-center justify-between">
+                  <li
+                    key={event.id}
+                    className="flex items-center justify-between"
+                  >
                     <div>
                       <p className="font-medium">{event.title}</p>
-                      <p className="text-sm text-muted-foreground">{event.date} at {event.time}</p>
+                      <p className="text-sm text-muted-foreground">
+                        {event.date} at {event.time}
+                      </p>
                     </div>
                     <Button variant="outline">RSVP</Button>
                   </li>
@@ -228,7 +392,9 @@ export default function AlumniDashboard() {
                       <Input
                         id="event-title"
                         value={newEventRequest.title}
-                        onChange={(e) => handleNewEventRequestChange('title', e.target.value)}
+                        onChange={(e) =>
+                          handleNewEventRequestChange("title", e.target.value)
+                        }
                         className="col-span-3"
                       />
                     </div>
@@ -240,7 +406,9 @@ export default function AlumniDashboard() {
                         id="event-date"
                         type="date"
                         value={newEventRequest.date}
-                        onChange={(e) => handleNewEventRequestChange('date', e.target.value)}
+                        onChange={(e) =>
+                          handleNewEventRequestChange("date", e.target.value)
+                        }
                         className="col-span-3"
                       />
                     </div>
@@ -252,7 +420,9 @@ export default function AlumniDashboard() {
                         id="event-time"
                         type="time"
                         value={newEventRequest.time}
-                        onChange={(e) => handleNewEventRequestChange('time', e.target.value)}
+                        onChange={(e) =>
+                          handleNewEventRequestChange("time", e.target.value)
+                        }
                         className="col-span-3"
                       />
                     </div>
@@ -263,7 +433,12 @@ export default function AlumniDashboard() {
                       <Textarea
                         id="event-description"
                         value={newEventRequest.description}
-                        onChange={(e) => handleNewEventRequestChange('description', e.target.value)}
+                        onChange={(e) =>
+                          handleNewEventRequestChange(
+                            "description",
+                            e.target.value,
+                          )
+                        }
                         className="col-span-3"
                       />
                     </div>
@@ -275,13 +450,20 @@ export default function AlumniDashboard() {
                         id="event-attendees"
                         type="number"
                         value={newEventRequest.expectedAttendees}
-                        onChange={(e) => handleNewEventRequestChange('expectedAttendees', e.target.value)}
+                        onChange={(e) =>
+                          handleNewEventRequestChange(
+                            "expectedAttendees",
+                            e.target.value,
+                          )
+                        }
                         className="col-span-3"
                       />
                     </div>
                   </div>
                   <DialogFooter>
-                    <Button type="submit" onClick={submitNewEventRequest}>Submit Request</Button>
+                    <Button type="submit" onClick={submitNewEventRequest}>
+                      Submit Request
+                    </Button>
                   </DialogFooter>
                 </DialogContent>
               </Dialog>
@@ -292,15 +474,22 @@ export default function AlumniDashboard() {
           <Card>
             <CardHeader>
               <CardTitle>Job Board</CardTitle>
-              <CardDescription>Exclusive job postings for alumni</CardDescription>
+              <CardDescription>
+                Exclusive job postings for alumni
+              </CardDescription>
             </CardHeader>
             <CardContent>
               <ul className="space-y-4">
                 {jobPostings.map((job) => (
-                  <li key={job.id} className="flex items-center justify-between">
+                  <li
+                    key={job.id}
+                    className="flex items-center justify-between"
+                  >
                     <div>
                       <p className="font-medium">{job.title}</p>
-                      <p className="text-sm text-muted-foreground">{job.company} - {job.location}</p>
+                      <p className="text-sm text-muted-foreground">
+                        {job.company} - {job.location}
+                      </p>
                     </div>
                     <Button variant="outline">Apply</Button>
                   </li>
@@ -334,7 +523,9 @@ export default function AlumniDashboard() {
                       <Input
                         id="job-title"
                         value={newJobPostRequest.title}
-                        onChange={(e) => handleNewJobPostRequestChange('title', e.target.value)}
+                        onChange={(e) =>
+                          handleNewJobPostRequestChange("title", e.target.value)
+                        }
                         className="col-span-3"
                       />
                     </div>
@@ -345,7 +536,12 @@ export default function AlumniDashboard() {
                       <Input
                         id="job-company"
                         value={newJobPostRequest.company}
-                        onChange={(e) => handleNewJobPostRequestChange('company', e.target.value)}
+                        onChange={(e) =>
+                          handleNewJobPostRequestChange(
+                            "company",
+                            e.target.value,
+                          )
+                        }
                         className="col-span-3"
                       />
                     </div>
@@ -356,7 +552,12 @@ export default function AlumniDashboard() {
                       <Input
                         id="job-location"
                         value={newJobPostRequest.location}
-                        onChange={(e) => handleNewJobPostRequestChange('location', e.target.value)}
+                        onChange={(e) =>
+                          handleNewJobPostRequestChange(
+                            "location",
+                            e.target.value,
+                          )
+                        }
                         className="col-span-3"
                       />
                     </div>
@@ -367,7 +568,12 @@ export default function AlumniDashboard() {
                       <Textarea
                         id="job-description"
                         value={newJobPostRequest.description}
-                        onChange={(e) => handleNewJobPostRequestChange('description', e.target.value)}
+                        onChange={(e) =>
+                          handleNewJobPostRequestChange(
+                            "description",
+                            e.target.value,
+                          )
+                        }
                         className="col-span-3"
                       />
                     </div>
@@ -378,7 +584,12 @@ export default function AlumniDashboard() {
                       <Textarea
                         id="job-requirements"
                         value={newJobPostRequest.requirements}
-                        onChange={(e) => handleNewJobPostRequestChange('requirements', e.target.value)}
+                        onChange={(e) =>
+                          handleNewJobPostRequestChange(
+                            "requirements",
+                            e.target.value,
+                          )
+                        }
                         className="col-span-3"
                       />
                     </div>
@@ -389,14 +600,21 @@ export default function AlumniDashboard() {
                       <Input
                         id="job-salary"
                         value={newJobPostRequest.salary}
-                        onChange={(e) => handleNewJobPostRequestChange('salary', e.target.value)}
+                        onChange={(e) =>
+                          handleNewJobPostRequestChange(
+                            "salary",
+                            e.target.value,
+                          )
+                        }
                         className="col-span-3"
                         placeholder="e.g. $50,000 - $70,000"
                       />
                     </div>
                   </div>
                   <DialogFooter>
-                    <Button type="submit" onClick={submitNewJobPostRequest}>Submit Job Posting</Button>
+                    <Button type="submit" onClick={submitNewJobPostRequest}>
+                      Submit Job Posting
+                    </Button>
                   </DialogFooter>
                 </DialogContent>
               </Dialog>
@@ -407,40 +625,78 @@ export default function AlumniDashboard() {
           <Card>
             <CardHeader>
               <CardTitle>Mentorship Program</CardTitle>
-              <CardDescription>Guide the next generation of professionals</CardDescription>
+              <CardDescription>
+                Guide the next generation of professionals
+              </CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="space-y-4">
-                <div>
-                  <Label htmlFor="mentorship-area">Area of Expertise</Label>
-                  <Select>
-                    <SelectTrigger id="mentorship-area">
-                      <SelectValue placeholder="Select your area of expertise" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="software-development">Software Development</SelectItem>
-                      <SelectItem value="data-science">Data Science</SelectItem>
-                      <SelectItem value="marketing">Marketing</SelectItem>
-                      <SelectItem value="finance">Finance</SelectItem>
-                      <SelectItem value="entrepreneurship">Entrepreneurship</SelectItem>
-                    </SelectContent>
-                  </Select>
+              {mentorshipStatus.isMentor ? (
+                <div className="space-y-4">
+                  <div>
+                    <Label htmlFor="mentorship-area">Area of Expertise</Label>
+                    <Select>
+                      <SelectTrigger id="mentorship-area">
+                        <SelectValue placeholder="Select your area of expertise" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="software-development">
+                          Software Development
+                        </SelectItem>
+                        <SelectItem value="data-science">
+                          Data Science
+                        </SelectItem>
+                        <SelectItem value="marketing">Marketing</SelectItem>
+                        <SelectItem value="finance">Finance</SelectItem>
+                        <SelectItem value="entrepreneurship">
+                          Entrepreneurship
+                        </SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  <div>
+                    <Label htmlFor="mentorship-availability">
+                      Availability (hours per week)
+                    </Label>
+                    <Input
+                      id="mentorship-availability"
+                      type="number"
+                      placeholder="e.g. 2"
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="mentorship-goals">Mentorship Goals</Label>
+                    <Textarea
+                      id="mentorship-goals"
+                      placeholder="Describe your goals for mentoring"
+                    />
+                  </div>
                 </div>
-                <div>
-                  <Label htmlFor="mentorship-availability">Availability (hours per week)</Label>
-                  <Input id="mentorship-availability" type="number" placeholder="e.g. 2" />
+              ) : (
+                <div className="text-center">
+                  <p className="mb-4">
+                    Become a mentor and guide current students!
+                  </p>
+                  {mentorshipStatus.requestStatus === "none" && (
+                    <Button onClick={handleMentorRequest}>
+                      Request to be a Mentor
+                    </Button>
+                  )}
+                  {mentorshipStatus.requestStatus === "pending" && (
+                    <Badge variant="secondary">Request Pending</Badge>
+                  )}
+                  {mentorshipStatus.requestStatus === "rejected" && (
+                    <Badge variant="destructive">Request Rejected</Badge>
+                  )}
                 </div>
-                <div>
-                  <Label htmlFor="mentorship-goals">Mentorship Goals</Label>
-                  <Textarea id="mentorship-goals" placeholder="Describe your goals for mentoring" />
-                </div>
-              </div>
+              )}
             </CardContent>
             <CardFooter>
-              <Button className="w-full">
-                <Users className="mr-2 h-4 w-4" />
-                Submit Mentorship Application
-              </Button>
+              {mentorshipStatus.isMentor && (
+                <Button className="w-full">
+                  <Users className="mr-2 h-4 w-4" />
+                  Manage Mentorship
+                </Button>
+              )}
             </CardFooter>
           </Card>
         </TabsContent>
@@ -448,15 +704,21 @@ export default function AlumniDashboard() {
           <Card>
             <CardHeader>
               <CardTitle>Giving Back</CardTitle>
-              <CardDescription>Support your alma mater and future generations</CardDescription>
+              <CardDescription>
+                Support your alma mater and future generations
+              </CardDescription>
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
                 <div>
                   <Label>Donation Progress</Label>
-                  <Progress value={(currentDonations / donationGoal) * 100} className="mt-2" />
+                  <Progress
+                    value={(currentDonations / donationGoal) * 100}
+                    className="mt-2"
+                  />
                   <p className="text-sm text-muted-foreground mt-1">
-                    ${currentDonations.toLocaleString()} raised of ${donationGoal.toLocaleString()} goal
+                    ${currentDonations.toLocaleString()} raised of $
+                    {donationGoal.toLocaleString()} goal
                   </p>
                 </div>
                 <div>
@@ -532,9 +794,16 @@ export default function AlumniDashboard() {
                 <div>
                   <Label className="mb-2 block">Certifications</Label>
                   <div className="flex flex-wrap gap-2">
-                    <Badge variant="secondary">Project Management Professional (PMP)</Badge>
-                    <Badge variant="secondary">Certified Information Systems Security Professional (CISSP)</Badge>
-                    <Badge variant="secondary">AWS Certified Solutions Architect</Badge>
+                    <Badge variant="secondary">
+                      Project Management Professional (PMP)
+                    </Badge>
+                    <Badge variant="secondary">
+                      Certified Information Systems Security Professional
+                      (CISSP)
+                    </Badge>
+                    <Badge variant="secondary">
+                      AWS Certified Solutions Architect
+                    </Badge>
                   </div>
                 </div>
               </div>
@@ -543,6 +812,116 @@ export default function AlumniDashboard() {
               <Button className="w-full">
                 <FileText className="mr-2 h-4 w-4" />
                 Update Professional Profile
+              </Button>
+            </CardFooter>
+          </Card>
+        </TabsContent>
+        <TabsContent value="news">
+          <Card>
+            <CardHeader>
+              <CardTitle>News & Updates</CardTitle>
+              <CardDescription>
+                Stay informed about your alma mater
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <ul className="space-y-4">
+                {newsArticles.map((article) => (
+                  <li
+                    key={article.id}
+                    className="flex items-center justify-between"
+                  >
+                    <div>
+                      <p className="font-medium">{article.title}</p>
+                      <p className="text-sm text-muted-foreground">
+                        {article.date}
+                      </p>
+                    </div>
+                    <Button variant="outline">Read More</Button>
+                  </li>
+                ))}
+              </ul>
+            </CardContent>
+            <CardFooter>
+              <Button className="w-full">
+                <Newspaper className="mr-2 h-4 w-4" />
+                View All News
+              </Button>
+            </CardFooter>
+          </Card>
+        </TabsContent>
+        <TabsContent value="webinars">
+          <Card>
+            <CardHeader>
+              <CardTitle>Webinars</CardTitle>
+              <CardDescription>
+                Enhance your skills with expert-led sessions
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <ul className="space-y-4">
+                {webinars.map((webinar) => (
+                  <li
+                    key={webinar.id}
+                    className="flex items-center justify-between"
+                  >
+                    <div>
+                      <p className="font-medium">{webinar.title}</p>
+                      <p className="text-sm text-muted-foreground">
+                        {webinar.date} at {webinar.time}
+                      </p>
+                    </div>
+                    <Button variant="outline">Register</Button>
+                  </li>
+                ))}
+              </ul>
+            </CardContent>
+            <CardFooter>
+              <Button className="w-full">
+                <Video className="mr-2 h-4 w-4" />
+                View All Webinars
+              </Button>
+            </CardFooter>
+          </Card>
+        </TabsContent>
+        <TabsContent value="perks">
+          <Card>
+            <CardHeader>
+              <CardTitle>Alumni Perks</CardTitle>
+              <CardDescription>
+                Exclusive benefits for our alumni community
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <ul className="space-y-4">
+                {perks.map((perk) => (
+                  <li
+                    key={perk.id}
+                    className="flex items-center justify-between"
+                  >
+                    <div>
+                      <p className="font-medium">{perk.title}</p>
+                      {perk.code && (
+                        <p className="text-sm text-muted-foreground">
+                          Code: {perk.code}
+                        </p>
+                      )}
+                    </div>
+                    {perk.link ? (
+                      <Button variant="outline" asChild>
+                        <Link href={perk.link}>Access</Link>
+                      </Button>
+                    ) : (
+                      <Button variant="outline">Redeem</Button>
+                    )}
+                  </li>
+                ))}
+              </ul>
+            </CardContent>
+            <CardFooter>
+              <Button className="w-full">
+                <Gift className="mr-2 h-4 w-4" />
+                View All Perks
               </Button>
             </CardFooter>
           </Card>
@@ -576,5 +955,5 @@ export default function AlumniDashboard() {
         </Button>
       </div>
     </div>
-  )
+  );
 }

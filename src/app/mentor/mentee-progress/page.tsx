@@ -1,22 +1,60 @@
-"use client"
+"use client";
 
-import { useState } from 'react'
-import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
-import { Progress } from '@/components/ui/progress'
-import { Badge } from '@/components/ui/badge'
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
-import { BarChart2, BookOpen, Calendar } from 'lucide-react'
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Progress } from "@/components/ui/progress";
+import { Badge } from "@/components/ui/badge";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import { BarChart2, BookOpen, Calendar } from "lucide-react";
 
 const mentees = [
-  { id: 1, name: "Alice Johnson", progress: 75, lastSession: "2023-07-10", nextSession: "2023-07-17", quizzesTaken: 5, averageScore: 85 },
-  { id: 2, name: "Bob Smith", progress: 60, lastSession: "2023-07-08", nextSession: "2023-07-15", quizzesTaken: 4, averageScore: 78 },
-  { id: 3, name: "Carol Williams", progress: 90, lastSession: "2023-07-12", nextSession: "2023-07-19", quizzesTaken: 6, averageScore: 92 },
-]
+  {
+    id: 1,
+    name: "Alice Johnson",
+    progress: 75,
+    lastSession: "2023-07-10",
+    nextSession: "2023-07-17",
+    quizzesTaken: 5,
+    averageScore: 85,
+  },
+  {
+    id: 2,
+    name: "Bob Smith",
+    progress: 60,
+    lastSession: "2023-07-08",
+    nextSession: "2023-07-15",
+    quizzesTaken: 4,
+    averageScore: 78,
+  },
+  {
+    id: 3,
+    name: "Carol Williams",
+    progress: 90,
+    lastSession: "2023-07-12",
+    nextSession: "2023-07-19",
+    quizzesTaken: 6,
+    averageScore: 92,
+  },
+];
 
 export default function MenteeProgress() {
-  const [selectedMentee, setSelectedMentee] = useState(null)
+  const [selectedMentee, setSelectedMentee] = useState(null);
 
   return (
     <div className="container mx-auto py-10 px-4 sm:px-6 lg:px-8">
@@ -26,7 +64,9 @@ export default function MenteeProgress() {
         <Card className="lg:col-span-2">
           <CardHeader>
             <CardTitle>Mentees Overview</CardTitle>
-            <CardDescription>Track your mentees' progress and engagement</CardDescription>
+            <CardDescription>
+              Track your mentees' progress and engagement
+            </CardDescription>
           </CardHeader>
           <CardContent>
             <Table>
@@ -56,7 +96,12 @@ export default function MenteeProgress() {
                     <TableCell>{mentee.lastSession}</TableCell>
                     <TableCell>{mentee.nextSession}</TableCell>
                     <TableCell>
-                      <Button variant="outline" onClick={() => setSelectedMentee(mentee)}>View Details</Button>
+                      <Button
+                        variant="outline"
+                        onClick={() => setSelectedMentee(mentee)}
+                      >
+                        View Details
+                      </Button>
                     </TableCell>
                   </TableRow>
                 ))}
@@ -68,7 +113,9 @@ export default function MenteeProgress() {
         <Card>
           <CardHeader>
             <CardTitle>Mentee Details</CardTitle>
-            <CardDescription>In-depth information about the selected mentee</CardDescription>
+            <CardDescription>
+              In-depth information about the selected mentee
+            </CardDescription>
           </CardHeader>
           <CardContent>
             {selectedMentee ? (
@@ -78,15 +125,22 @@ export default function MenteeProgress() {
                     <AvatarFallback>{selectedMentee.name[0]}</AvatarFallback>
                   </Avatar>
                   <div>
-                    <h3 className="text-xl font-semibold">{selectedMentee.name}</h3>
-                    <p className="text-sm text-muted-foreground">Joined 3 months ago</p>
+                    <h3 className="text-xl font-semibold">
+                      {selectedMentee.name}
+                    </h3>
+                    <p className="text-sm text-muted-foreground">
+                      Joined 3 months ago
+                    </p>
                   </div>
                 </div>
                 <div className="grid grid-cols-2 gap-4">
                   <div>
                     <p className="text-sm font-medium">Overall Progress</p>
                     <div className="flex items-center mt-1">
-                      <Progress value={selectedMentee.progress} className="w-[60px] mr-2" />
+                      <Progress
+                        value={selectedMentee.progress}
+                        className="w-[60px] mr-2"
+                      />
                       <span>{selectedMentee.progress}%</span>
                     </div>
                   </div>
@@ -123,7 +177,9 @@ export default function MenteeProgress() {
                 </div>
               </div>
             ) : (
-              <p className="text-center text-muted-foreground">Select a mentee to view details</p>
+              <p className="text-center text-muted-foreground">
+                Select a mentee to view details
+              </p>
             )}
           </CardContent>
           {selectedMentee && (
@@ -134,5 +190,5 @@ export default function MenteeProgress() {
         </Card>
       </div>
     </div>
-  )
+  );
 }

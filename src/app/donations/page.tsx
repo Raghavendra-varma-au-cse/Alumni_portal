@@ -1,8 +1,15 @@
-import Link from 'next/link'
-import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
-import { Progress } from '@/components/ui/progress'
-import { DollarSign, BookOpen, FlaskConical, Building2 } from 'lucide-react'
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Progress } from "@/components/ui/progress";
+import { DollarSign, BookOpen, FlaskConical, Building2 } from "lucide-react";
 
 const donationCards = [
   {
@@ -12,7 +19,7 @@ const donationCards = [
     progress: 75,
     goal: 100000,
     raised: 75000,
-    link: "/donations/form?fund=scholarship"
+    link: "/donations/form?fund=scholarship",
   },
   {
     title: "Research Fund",
@@ -21,7 +28,7 @@ const donationCards = [
     progress: 60,
     goal: 200000,
     raised: 120000,
-    link: "/donations/form?fund=research"
+    link: "/donations/form?fund=research",
   },
   {
     title: "Campus Improvement",
@@ -30,9 +37,9 @@ const donationCards = [
     progress: 40,
     goal: 150000,
     raised: 60000,
-    link: "/donations/form?fund=campus"
-  }
-]
+    link: "/donations/form?fund=campus",
+  },
+];
 
 export default function DonationsPage() {
   return (
@@ -40,7 +47,8 @@ export default function DonationsPage() {
       <div className="text-center mb-12">
         <h1 className="text-4xl font-bold mb-4">Support Your Alma Mater</h1>
         <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-          Your generous donations help us continue to provide excellent education and opportunities for future generations.
+          Your generous donations help us continue to provide excellent
+          education and opportunities for future generations.
         </p>
       </div>
 
@@ -57,7 +65,8 @@ export default function DonationsPage() {
             <CardContent className="flex-grow">
               <Progress value={card.progress} className="mb-2" />
               <p className="text-sm text-muted-foreground">
-                ${card.raised.toLocaleString()} raised of ${card.goal.toLocaleString()} goal
+                ${card.raised.toLocaleString()} raised of $
+                {card.goal.toLocaleString()} goal
               </p>
             </CardContent>
             <CardFooter>
@@ -71,7 +80,10 @@ export default function DonationsPage() {
 
       <div className="text-center mb-12">
         <Link href="/donations/form">
-          <Button size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90">
+          <Button
+            size="lg"
+            className="bg-primary text-primary-foreground hover:bg-primary/90"
+          >
             Make a General Donation
           </Button>
         </Link>
@@ -99,5 +111,5 @@ export default function DonationsPage() {
         </CardContent>
       </Card>
     </div>
-  )
+  );
 }

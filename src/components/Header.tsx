@@ -1,24 +1,24 @@
-"use client"
+"use client";
 
-import { useState } from 'react'
-import Link from 'next/link'
-import { useTheme } from 'next-themes'
-import { Moon, Sun, Menu, X, User, Bell } from 'lucide-react'
-import { Button } from '@/components/ui/button'
+import { useState } from "react";
+import Link from "next/link";
+import { useTheme } from "next-themes";
+import { Moon, Sun, Menu, X, User, Bell } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu'
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
-import { Input } from '@/components/ui/input'
+} from "@/components/ui/dropdown-menu";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Input } from "@/components/ui/input";
 
 const Header = () => {
-  const { setTheme, theme } = useTheme()
-  const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const { setTheme, theme } = useTheme();
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  const toggleMenu = () => setIsMenuOpen(!isMenuOpen)
+  const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
   return (
     <header className="sticky top-0 z-40 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -28,17 +28,35 @@ const Header = () => {
             <span className="inline-block font-bold">Alumni Portal</span>
           </Link>
           <nav className="hidden md:flex gap-6">
-            <Link href="/events" className="flex items-center text-sm font-medium">
+            <Link
+              href="/events"
+              className="flex items-center text-sm font-medium"
+            >
               Events
             </Link>
-            <Link href="/jobs" className="flex items-center text-sm font-medium">
+            <Link
+              href="/jobs"
+              className="flex items-center text-sm font-medium"
+            >
               Jobs
             </Link>
-            <Link href="/mentorship" className="flex items-center text-sm font-medium">
+            <Link
+              href="/mentorship"
+              className="flex items-center text-sm font-medium"
+            >
               Mentorship
             </Link>
-            <Link href="/donate" className="flex items-center text-sm font-medium">
+            <Link
+              href="/donations"
+              className="block px-3 py-2 text-base font-medium"
+            >
               Donate
+            </Link>
+            <Link
+              href="/success-stories"
+              className="block px-3 py-2 text-base font-medium"
+            >
+              Success Stories
             </Link>
           </nav>
         </div>
@@ -79,7 +97,10 @@ const Header = () => {
               <DropdownMenuTrigger asChild>
                 <Button variant="ghost" size="sm" className="h-8 w-8 px-0">
                   <Avatar className="h-8 w-8">
-                    <AvatarImage src="/placeholder-avatar.jpg" alt="@username" />
+                    <AvatarImage
+                      src="/placeholder-avatar.jpg"
+                      alt="@username"
+                    />
                     <AvatarFallback>UN</AvatarFallback>
                   </Avatar>
                 </Button>
@@ -109,23 +130,41 @@ const Header = () => {
       {isMenuOpen && (
         <div className="md:hidden">
           <div className="space-y-1 px-2 pb-3 pt-2">
-            <Link href="/events" className="block px-3 py-2 text-base font-medium">
+            <Link
+              href="/events"
+              className="block px-3 py-2 text-base font-medium"
+            >
               Events
             </Link>
-            <Link href="/jobs" className="block px-3 py-2 text-base font-medium">
+            <Link
+              href="/jobs"
+              className="block px-3 py-2 text-base font-medium"
+            >
               Jobs
             </Link>
-            <Link href="/mentorship" className="block px-3 py-2 text-base font-medium">
+            <Link
+              href="/mentorship"
+              className="block px-3 py-2 text-base font-medium"
+            >
               Mentorship
             </Link>
-            <Link href="/donate" className="block px-3 py-2 text-base font-medium">
+            <Link
+              href="/donations"
+              className="block px-3 py-2 text-base font-medium"
+            >
               Donate
+            </Link>
+            <Link
+              href="/success-stories"
+              className="block px-3 py-2 text-base font-medium"
+            >
+              Success Stories
             </Link>
           </div>
         </div>
       )}
     </header>
-  )
-}
+  );
+};
 
-export default Header
+export default Header;

@@ -1,49 +1,98 @@
-"use client"
+"use client";
 
-import { useState, useEffect } from 'react'
-import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
-import { Input } from '@/components/ui/input'
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { ScrollArea } from '@/components/ui/scroll-area'
-import { Separator } from '@/components/ui/separator'
-import { Label } from '@/components/ui/label'
-import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
-import { Mic, MicOff, Video, VideoOff, PhoneOff, MessageSquare, Share2, Users, FileText, Send, Hand, MoreVertical, Settings, Presentation, Maximize, MicIcon, Circle, CircleAlertIcon, CircleCheck } from 'lucide-react'
+import { useState, useEffect } from "react";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Separator } from "@/components/ui/separator";
+import { Label } from "@/components/ui/label";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import {
+  Mic,
+  MicOff,
+  Video,
+  VideoOff,
+  PhoneOff,
+  MessageSquare,
+  Share2,
+  Users,
+  FileText,
+  Send,
+  Hand,
+  MoreVertical,
+  Settings,
+  Presentation,
+  Maximize,
+  MicIcon,
+  Circle,
+  CircleAlertIcon,
+  CircleCheck,
+} from "lucide-react";
 
 export default function MentorVideoChat() {
-  const [isMuted, setIsMuted] = useState(false)
-  const [isVideoOff, setIsVideoOff] = useState(false)
-  const [isRecording, setIsRecording] = useState(false)
-  const [isScreenSharing, setIsScreenSharing] = useState(false)
-  const [messages, setMessages] = useState([])
-  const [newMessage, setNewMessage] = useState('')
-  const [activeTab, setActiveTab] = useState('chat')
-  const [raisedHands, setRaisedHands] = useState([])
+  const [isMuted, setIsMuted] = useState(false);
+  const [isVideoOff, setIsVideoOff] = useState(false);
+  const [isRecording, setIsRecording] = useState(false);
+  const [isScreenSharing, setIsScreenSharing] = useState(false);
+  const [messages, setMessages] = useState([]);
+  const [newMessage, setNewMessage] = useState("");
+  const [activeTab, setActiveTab] = useState("chat");
+  const [raisedHands, setRaisedHands] = useState([]);
 
   // Simulating a connection event
   useEffect(() => {
     setTimeout(() => {
       setMessages([
-        { id: 1, sender: 'You', content: 'Welcome to our mentoring session! How can I help you today?' },
-        { id: 2, sender: 'Student', content: 'Hi! I wanted to discuss my recent project and get some feedback.' },
-      ])
-      setRaisedHands([{ id: 1, name: 'John Doe' }])
-    }, 1000)
-  }, [])
+        {
+          id: 1,
+          sender: "You",
+          content:
+            "Welcome to our mentoring session! How can I help you today?",
+        },
+        {
+          id: 2,
+          sender: "Student",
+          content:
+            "Hi! I wanted to discuss my recent project and get some feedback.",
+        },
+      ]);
+      setRaisedHands([{ id: 1, name: "John Doe" }]);
+    }, 1000);
+  }, []);
 
   const sendMessage = () => {
     if (newMessage.trim()) {
-      setMessages([...messages, { id: messages.length + 1, sender: 'You', content: newMessage }])
-      setNewMessage('')
+      setMessages([
+        ...messages,
+        { id: messages.length + 1, sender: "You", content: newMessage },
+      ]);
+      setNewMessage("");
     }
-  }
+  };
 
   const handleRaisedHand = (id) => {
-    setRaisedHands(raisedHands.filter(hand => hand.id !== id))
-  }
+    setRaisedHands(raisedHands.filter((hand) => hand.id !== id));
+  };
 
   return (
     <div className="container mx-auto py-10 px-4 sm:px-6 lg:px-8">
@@ -61,7 +110,9 @@ export default function MentorVideoChat() {
           </CardHeader>
           <CardContent className="aspect-video bg-muted flex items-center justify-center relative">
             <div className="absolute inset-0 flex items-center justify-center">
-              <p className="text-muted-foreground">Student's video stream would appear here</p>
+              <p className="text-muted-foreground">
+                Student's video stream would appear here
+              </p>
             </div>
             <div className="absolute bottom-4 right-4 w-32 h-24 bg-primary flex items-center justify-center">
               <p className="text-primary-foreground">Your view</p>
@@ -69,17 +120,45 @@ export default function MentorVideoChat() {
           </CardContent>
           <CardFooter className="flex justify-between">
             <div className="flex space-x-2">
-              <Button variant="outline" size="icon" onClick={() => setIsMuted(!isMuted)}>
-                {isMuted ? <MicOff className="h-4 w-4" /> : <Mic className="h-4 w-4" />}
+              <Button
+                variant="outline"
+                size="icon"
+                onClick={() => setIsMuted(!isMuted)}
+              >
+                {isMuted ? (
+                  <MicOff className="h-4 w-4" />
+                ) : (
+                  <Mic className="h-4 w-4" />
+                )}
               </Button>
-              <Button variant="outline" size="icon" onClick={() => setIsVideoOff(!isVideoOff)}>
-                {isVideoOff ? <VideoOff className="h-4 w-4" /> : <Video className="h-4 w-4" />}
+              <Button
+                variant="outline"
+                size="icon"
+                onClick={() => setIsVideoOff(!isVideoOff)}
+              >
+                {isVideoOff ? (
+                  <VideoOff className="h-4 w-4" />
+                ) : (
+                  <Video className="h-4 w-4" />
+                )}
               </Button>
-              <Button variant="outline" size="icon" onClick={() => setIsScreenSharing(!isScreenSharing)}>
-                <Presentation className={`h-4 w-4 ${isScreenSharing ? 'text-green-500' : ''}`} />
+              <Button
+                variant="outline"
+                size="icon"
+                onClick={() => setIsScreenSharing(!isScreenSharing)}
+              >
+                <Presentation
+                  className={`h-4 w-4 ${isScreenSharing ? "text-green-500" : ""}`}
+                />
               </Button>
-              <Button variant="outline" size="icon" onClick={() => setIsRecording(!isRecording)}>
-                <Circle className={`h-4 w-4 ${isRecording ? 'text-red-500' : ''}`} />
+              <Button
+                variant="outline"
+                size="icon"
+                onClick={() => setIsRecording(!isRecording)}
+              >
+                <Circle
+                  className={`h-4 w-4 ${isRecording ? "text-red-500" : ""}`}
+                />
               </Button>
               <Popover>
                 <PopoverTrigger asChild>
@@ -90,7 +169,9 @@ export default function MentorVideoChat() {
                 <PopoverContent className="w-80">
                   <div className="grid gap-4">
                     <div className="space-y-2">
-                      <h4 className="font-medium leading-none">Adjust Settings</h4>
+                      <h4 className="font-medium leading-none">
+                        Adjust Settings
+                      </h4>
                       <p className="text-sm text-muted-foreground">
                         Configure your audio and video settings.
                       </p>
@@ -104,7 +185,9 @@ export default function MentorVideoChat() {
                           </SelectTrigger>
                           <SelectContent position="popper">
                             <SelectItem value="speakers">Speakers</SelectItem>
-                            <SelectItem value="headphones">Headphones</SelectItem>
+                            <SelectItem value="headphones">
+                              Headphones
+                            </SelectItem>
                           </SelectContent>
                         </Select>
                       </div>
@@ -115,8 +198,12 @@ export default function MentorVideoChat() {
                             <SelectValue placeholder="Select" />
                           </SelectTrigger>
                           <SelectContent position="popper">
-                            <SelectItem value="built-in">Built-in Microphone</SelectItem>
-                            <SelectItem value="external">External Microphone</SelectItem>
+                            <SelectItem value="built-in">
+                              Built-in Microphone
+                            </SelectItem>
+                            <SelectItem value="external">
+                              External Microphone
+                            </SelectItem>
                           </SelectContent>
                         </Select>
                       </div>
@@ -145,14 +232,22 @@ export default function MentorVideoChat() {
               <CardContent>
                 <ScrollArea className="h-[400px] w-full pr-4">
                   {messages.map((message) => (
-                    <div key={message.id} className={`flex mb-4 ${message.sender === 'You' ? 'justify-end' : ''}`}>
-                      {message.sender !== 'You' && (
+                    <div
+                      key={message.id}
+                      className={`flex mb-4 ${message.sender === "You" ? "justify-end" : ""}`}
+                    >
+                      {message.sender !== "You" && (
                         <Avatar className="h-8 w-8 mr-2">
-                          <AvatarImage src="/placeholder-avatar.jpg" alt={message.sender} />
+                          <AvatarImage
+                            src="/placeholder-avatar.jpg"
+                            alt={message.sender}
+                          />
                           <AvatarFallback>{message.sender[0]}</AvatarFallback>
                         </Avatar>
                       )}
-                      <div className={`rounded-lg p-2 max-w-[70%] ${message.sender === 'You' ? 'bg-primary text-primary-foreground' : 'bg-muted'}`}>
+                      <div
+                        className={`rounded-lg p-2 max-w-[70%] ${message.sender === "You" ? "bg-primary text-primary-foreground" : "bg-muted"}`}
+                      >
                         <p>{message.content}</p>
                       </div>
                     </div>
@@ -166,7 +261,7 @@ export default function MentorVideoChat() {
                     placeholder="Type a message..."
                     value={newMessage}
                     onChange={(e) => setNewMessage(e.target.value)}
-                    onKeyPress={(e) => e.key === 'Enter' && sendMessage()}
+                    onKeyPress={(e) => e.key === "Enter" && sendMessage()}
                   />
                   <Button size="icon" onClick={sendMessage}>
                     <Send className="h-4 w-4" />
@@ -184,7 +279,10 @@ export default function MentorVideoChat() {
                     <div className="flex items-center justify-between">
                       <div className="flex items-center">
                         <Avatar className="h-8 w-8 mr-2">
-                          <AvatarImage src="/placeholder-mentor.jpg" alt="You" />
+                          <AvatarImage
+                            src="/placeholder-mentor.jpg"
+                            alt="You"
+                          />
                           <AvatarFallback>Y</AvatarFallback>
                         </Avatar>
                         <div>
@@ -201,12 +299,17 @@ export default function MentorVideoChat() {
                     <div className="flex items-center justify-between">
                       <div className="flex items-center">
                         <Avatar className="h-8 w-8 mr-2">
-                          <AvatarImage src="/placeholder-student.jpg" alt="John Doe" />
+                          <AvatarImage
+                            src="/placeholder-student.jpg"
+                            alt="John Doe"
+                          />
                           <AvatarFallback>JD</AvatarFallback>
                         </Avatar>
                         <div>
                           <p className="font-medium">John Doe (Student)</p>
-                          <p className="text-sm text-muted-foreground">Participant</p>
+                          <p className="text-sm text-muted-foreground">
+                            Participant
+                          </p>
                         </div>
                       </div>
                       <div className="flex items-center space-x-2">
@@ -228,15 +331,24 @@ export default function MentorVideoChat() {
                   <h4 className="font-medium mb-2">Raised Hands</h4>
                   {raisedHands.length > 0 ? (
                     raisedHands.map((hand) => (
-                      <div key={hand.id} className="flex items-center justify-between mb-2">
+                      <div
+                        key={hand.id}
+                        className="flex items-center justify-between mb-2"
+                      >
                         <span>{hand.name}</span>
-                        <Button variant="outline" size="sm" onClick={() => handleRaisedHand(hand.id)}>
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => handleRaisedHand(hand.id)}
+                        >
                           Address
                         </Button>
                       </div>
                     ))
                   ) : (
-                    <p className="text-sm text-muted-foreground">No raised hands</p>
+                    <p className="text-sm text-muted-foreground">
+                      No raised hands
+                    </p>
                   )}
                 </div>
               </CardFooter>
@@ -264,5 +376,5 @@ export default function MentorVideoChat() {
         </Card>
       </div>
     </div>
-  )
+  );
 }

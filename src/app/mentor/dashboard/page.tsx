@@ -1,18 +1,33 @@
-"use client"
+"use client";
 
-import { useState } from 'react'
-import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
-import { Calendar, Clock, Users, BookOpen, BarChart2, PlusCircle, Briefcase } from 'lucide-react'
-import Link from 'next/link'
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import {
+  Calendar,
+  Clock,
+  Users,
+  BookOpen,
+  BarChart2,
+  PlusCircle,
+  Briefcase,
+} from "lucide-react";
+import Link from "next/link";
 
 export default function MentorDashboard() {
   const [upcomingSessions, setUpcomingSessions] = useState([
     { id: 1, student: "Alice Johnson", date: "2023-07-15", time: "14:00" },
     { id: 2, student: "Bob Smith", date: "2023-07-16", time: "15:30" },
     { id: 3, student: "Carol Williams", date: "2023-07-17", time: "11:00" },
-  ])
+  ]);
 
   return (
     <div className="container mx-auto py-10 px-4 sm:px-6 lg:px-8">
@@ -36,7 +51,9 @@ export default function MentorDashboard() {
         </Card>
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Sessions This Month</CardTitle>
+            <CardTitle className="text-sm font-medium">
+              Sessions This Month
+            </CardTitle>
             <Calendar className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
@@ -45,7 +62,9 @@ export default function MentorDashboard() {
         </Card>
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Quizzes Created</CardTitle>
+            <CardTitle className="text-sm font-medium">
+              Quizzes Created
+            </CardTitle>
             <BookOpen className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
@@ -54,7 +73,9 @@ export default function MentorDashboard() {
         </Card>
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Avg. Session Rating</CardTitle>
+            <CardTitle className="text-sm font-medium">
+              Avg. Session Rating
+            </CardTitle>
             <BarChart2 className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
@@ -72,14 +93,19 @@ export default function MentorDashboard() {
           <CardContent>
             <ul className="space-y-4">
               {upcomingSessions.map((session) => (
-                <li key={session.id} className="flex items-center justify-between">
+                <li
+                  key={session.id}
+                  className="flex items-center justify-between"
+                >
                   <div className="flex items-center space-x-4">
                     <Avatar>
                       <AvatarFallback>{session.student[0]}</AvatarFallback>
                     </Avatar>
                     <div>
                       <p className="font-medium">{session.student}</p>
-                      <p className="text-sm text-muted-foreground">{session.date} at {session.time}</p>
+                      <p className="text-sm text-muted-foreground">
+                        {session.date} at {session.time}
+                      </p>
                     </div>
                   </div>
                   <Button variant="outline">Join</Button>
@@ -102,7 +128,7 @@ export default function MentorDashboard() {
           </CardHeader>
           <CardContent className="grid gap-4">
             <Button className="w-full justify-start" asChild>
-              <Link href="/mentor/manage-sessions">
+              <Link href="/mentor/requests">
                 <Calendar className="mr-2 h-4 w-4" />
                 Manage Sessions
               </Link>
@@ -135,5 +161,5 @@ export default function MentorDashboard() {
         </Card>
       </div>
     </div>
-  )
+  );
 }

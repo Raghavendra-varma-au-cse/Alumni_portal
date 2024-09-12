@@ -1,137 +1,126 @@
-"use client"
+"use client";
 
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts'
-
-const userGrowthData = [
-  { name: 'Jan', users: 400 },
-  { name: 'Feb', users: 600 },
-  { name: 'Mar', users: 800 },
-  { name: 'Apr', users: 1000 },
-  { name: 'May', users: 1200 },
-  { name: 'Jun', users: 1500 },
-]
-
-const eventAttendanceData = [
-  { name: 'Event 1', attendees: 150 },
-  { name: 'Event 2', attendees: 200 },
-  { name: 'Event 3', attendees: 180 },
-  { name: 'Event 4', attendees: 250 },
-  { name: 'Event 5', attendees: 300 },
-]
-
-const donationData = [
-  { name: 'Jan', amount: 5000 },
-  { name: 'Feb', amount: 7000 },
-  { name: 'Mar', amount: 6500 },
-  { name: 'Apr', amount: 8000 },
-  { name: 'May', amount: 10000 },
-  { name: 'Jun', amount: 12000 },
-]
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { BarChart, LineChart, PieChart } from "@/components/charts";
 
 export default function AnalyticsPage() {
   return (
-    <div className="container mx-auto py-8">
-      <h1 className="text-3xl font-bold mb-6">Analytics Dashboard</h1>
-      <Tabs defaultValue="overview">
-        <TabsList className="mb-4">
-          <TabsTrigger value="overview">Overview</TabsTrigger>
-          <TabsTrigger value="users">User Growth</TabsTrigger>
-          <TabsTrigger value="events">Event Attendance</TabsTrigger>
-          <TabsTrigger value="donations">Donations</TabsTrigger>
-        </TabsList>
-        <TabsContent value="overview">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <Card>
-              <CardHeader>
-                <CardTitle>User Growth</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <ResponsiveContainer width="100%" height={300}>
-                  <LineChart data={userGrowthData}>
-                    <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey="name" />
-                    <YAxis />
-                    <Tooltip />
-                    <Line type="monotone" dataKey="users" stroke="#8884d8" />
-                  </LineChart>
-                </ResponsiveContainer>
-              </CardContent>
-            </Card>
-            <Card>
-              <CardHeader>
-                <CardTitle>Event Attendance</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <ResponsiveContainer width="100%" height={300}>
-                  <LineChart data={eventAttendanceData}>
-                    <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey="name" />
-                    <YAxis />
-                    <Tooltip />
-                    <Line type="monotone" dataKey="attendees" stroke="#82ca9d" />
-                  </LineChart>
-                </ResponsiveContainer>
-              </CardContent>
-            </Card>
-          </div>
-        </TabsContent>
-        <TabsContent value="users">
-          <Card>
-            <CardHeader>
-              <CardTitle>User Growth Over Time</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <ResponsiveContainer width="100%" height={400}>
-                <LineChart data={userGrowthData}>
-                  <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis dataKey="name" />
-                  <YAxis />
-                  <Tooltip />
-                  <Line type="monotone" dataKey="users" stroke="#8884d8" />
-                </LineChart>
-              </ResponsiveContainer>
-            </CardContent>
-          </Card>
-        </TabsContent>
-        <TabsContent value="events">
-          <Card>
-            <CardHeader>
-              <CardTitle>Event Attendance</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <ResponsiveContainer width="100%" height={400}>
-                <LineChart data={eventAttendanceData}>
-                  <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis dataKey="name" />
-                  <YAxis />
-                  <Tooltip />
-                  <Line type="monotone" dataKey="attendees" stroke="#82ca9d" />
-                </LineChart>
-              </ResponsiveContainer>
-            </CardContent>
-          </Card>
-        </TabsContent>
-        <TabsContent value="donations">
-          <Card>
-            <CardHeader>
-              <CardTitle>Donation Trends</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <ResponsiveContainer width="100%" height={400}>
-                <LineChart data={donationData}>
-                  <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis dataKey="name" />
-                  <YAxis />
-                  <Tooltip />
-                  <Line type="monotone" dataKey="amount" stroke="#ffc658" />
-                </LineChart>
-              </ResponsiveContainer>
-            </CardContent>
-          </Card>
-        </TabsContent>
-      </Tabs>
+    <div className="space-y-6">
+      <div className="flex justify-between items-center">
+        <h1 className="text-4xl font-bold">Analytics Dashboard</h1>
+        <div className="flex items-center space-x-2">
+          <Select defaultValue="7d">
+            <SelectTrigger className="w-[180px]">
+              <SelectValue placeholder="Select time range" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="7d">Last 7 days</SelectItem>
+              <SelectItem value="30d">Last 30 days</SelectItem>
+              <SelectItem value="3m">Last 3 months</SelectItem>
+              <SelectItem value="1y">Last year</SelectItem>
+            </SelectContent>
+          </Select>
+          <Button>Export Report</Button>
+        </div>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Total Alumni</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">10,482</div>
+            <p className="text-xs text-muted-foreground">
+              +2.5% from last month
+            </p>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Active Users</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">8,741</div>
+            <p className="text-xs text-muted-foreground">
+              +5.1% from last month
+            </p>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">
+              Total Donations
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">$523,890</div>
+            <p className="text-xs text-muted-foreground">
+              +8.7% from last month
+            </p>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">
+              Event Attendance
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">1,429</div>
+            <p className="text-xs text-muted-foreground">
+              +12.3% from last month
+            </p>
+          </CardContent>
+        </Card>
+      </div>
+
+      <div className="grid gap-6 md:grid-cols-2">
+        <Card>
+          <CardHeader>
+            <CardTitle>User Engagement</CardTitle>
+            <CardDescription>Daily active users over time</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <LineChart />
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader>
+            <CardTitle>Donation Distribution</CardTitle>
+            <CardDescription>
+              Breakdown of donations by category
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <PieChart />
+          </CardContent>
+        </Card>
+      </div>
+
+      <Card>
+        <CardHeader>
+          <CardTitle>Event Attendance</CardTitle>
+          <CardDescription>Number of attendees per event</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <BarChart />
+        </CardContent>
+      </Card>
     </div>
-  )
+  );
 }

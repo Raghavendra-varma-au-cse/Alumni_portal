@@ -1,22 +1,66 @@
-"use client"
+"use client";
 
-import { useState } from 'react'
-import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
-import { Switch } from '@/components/ui/switch'
-import { Label } from '@/components/ui/label'
-import { Badge } from '@/components/ui/badge'
-import { Bell, Mail, Calendar, Briefcase, Users, GraduationCap } from 'lucide-react'
-import { toast } from '@/components/ui/use-toast'
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Switch } from "@/components/ui/switch";
+import { Label } from "@/components/ui/label";
+import { Badge } from "@/components/ui/badge";
+import {
+  Bell,
+  Mail,
+  Calendar,
+  Briefcase,
+  Users,
+  GraduationCap,
+} from "lucide-react";
+import { toast } from "@/components/ui/use-toast";
 
 export default function NotificationsPage() {
   const [notifications, setNotifications] = useState([
-    { id: 1, type: 'event', message: 'New alumni networking event next week', read: false, date: '2023-07-10' },
-    { id: 2, type: 'job', message: 'New job posting: Software Engineer at Tech Corp', read: true, date: '2023-07-09' },
-    { id: 3, type: 'mentorship', message: 'You have a new mentorship request', read: false, date: '2023-07-08' },
-    { id: 4, type: 'news', message: 'University launches new research center', read: true, date: '2023-07-07' },
-    { id: 5, type: 'event', message: 'Reminder: Alumni reunion this weekend', read: false, date: '2023-07-06' },
-  ])
+    {
+      id: 1,
+      type: "event",
+      message: "New alumni networking event next week",
+      read: false,
+      date: "2023-07-10",
+    },
+    {
+      id: 2,
+      type: "job",
+      message: "New job posting: Software Engineer at Tech Corp",
+      read: true,
+      date: "2023-07-09",
+    },
+    {
+      id: 3,
+      type: "mentorship",
+      message: "You have a new mentorship request",
+      read: false,
+      date: "2023-07-08",
+    },
+    {
+      id: 4,
+      type: "news",
+      message: "University launches new research center",
+      read: true,
+      date: "2023-07-07",
+    },
+    {
+      id: 5,
+      type: "event",
+      message: "Reminder: Alumni reunion this weekend",
+      read: false,
+      date: "2023-07-06",
+    },
+  ]);
 
   const [settings, setSettings] = useState({
     emailNotifications: true,
@@ -25,40 +69,40 @@ export default function NotificationsPage() {
     jobAlerts: true,
     mentorshipRequests: true,
     newsUpdates: false,
-  })
+  });
 
   const handleSettingChange = (setting: string) => {
-    setSettings((prev) => ({ ...prev, [setting]: !prev[setting] }))
-  }
+    setSettings((prev) => ({ ...prev, [setting]: !prev[setting] }));
+  };
 
   const markAsRead = (id: number) => {
     setNotifications((prev) =>
-      prev.map((notif) => (notif.id === id ? { ...notif, read: true } : notif))
-    )
-  }
+      prev.map((notif) => (notif.id === id ? { ...notif, read: true } : notif)),
+    );
+  };
 
   const clearAllNotifications = () => {
-    setNotifications([])
+    setNotifications([]);
     toast({
-      title: 'Notifications Cleared',
-      description: 'All notifications have been removed.',
-    })
-  }
+      title: "Notifications Cleared",
+      description: "All notifications have been removed.",
+    });
+  };
 
   const getIcon = (type: string) => {
     switch (type) {
-      case 'event':
-        return <Calendar className="h-4 w-4" />
-      case 'job':
-        return <Briefcase className="h-4 w-4" />
-      case 'mentorship':
-        return <Users className="h-4 w-4" />
-      case 'news':
-        return <GraduationCap className="h-4 w-4" />
+      case "event":
+        return <Calendar className="h-4 w-4" />;
+      case "job":
+        return <Briefcase className="h-4 w-4" />;
+      case "mentorship":
+        return <Users className="h-4 w-4" />;
+      case "news":
+        return <GraduationCap className="h-4 w-4" />;
       default:
-        return <Bell className="h-4 w-4" />
+        return <Bell className="h-4 w-4" />;
     }
-  }
+  };
 
   return (
     <div className="container mx-auto py-10 px-4 sm:px-6 lg:px-8">
@@ -68,22 +112,34 @@ export default function NotificationsPage() {
           <Card>
             <CardHeader>
               <CardTitle>Recent Notifications</CardTitle>
-              <CardDescription>Stay updated with the latest alumni news and events</CardDescription>
+              <CardDescription>
+                Stay updated with the latest alumni news and events
+              </CardDescription>
             </CardHeader>
             <CardContent>
               {notifications.length > 0 ? (
                 <ul className="space-y-4">
                   {notifications.map((notif) => (
                     <li key={notif.id} className="flex items-start space-x-4">
-                      <div className={`mt-1 ${notif.read ? 'text-gray-400' : 'text-blue-500'}`}>
+                      <div
+                        className={`mt-1 ${notif.read ? "text-gray-400" : "text-blue-500"}`}
+                      >
                         {getIcon(notif.type)}
                       </div>
                       <div className="flex-1">
-                        <p className={`${notif.read ? 'text-gray-600' : 'font-medium'}`}>{notif.message}</p>
+                        <p
+                          className={`${notif.read ? "text-gray-600" : "font-medium"}`}
+                        >
+                          {notif.message}
+                        </p>
                         <p className="text-sm text-gray-500">{notif.date}</p>
                       </div>
                       {!notif.read && (
-                        <Button variant="outline" size="sm" onClick={() => markAsRead(notif.id)}>
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => markAsRead(notif.id)}
+                        >
                           Mark as Read
                         </Button>
                       )}
@@ -91,11 +147,17 @@ export default function NotificationsPage() {
                   ))}
                 </ul>
               ) : (
-                <p className="text-center text-gray-500">No new notifications</p>
+                <p className="text-center text-gray-500">
+                  No new notifications
+                </p>
               )}
             </CardContent>
             <CardFooter>
-              <Button variant="outline" className="w-full" onClick={clearAllNotifications}>
+              <Button
+                variant="outline"
+                className="w-full"
+                onClick={clearAllNotifications}
+              >
                 Clear All Notifications
               </Button>
             </CardFooter>
@@ -105,7 +167,9 @@ export default function NotificationsPage() {
           <Card>
             <CardHeader>
               <CardTitle>Notification Settings</CardTitle>
-              <CardDescription>Customize how you receive notifications</CardDescription>
+              <CardDescription>
+                Customize how you receive notifications
+              </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="flex items-center justify-between">
@@ -113,7 +177,9 @@ export default function NotificationsPage() {
                 <Switch
                   id="emailNotifications"
                   checked={settings.emailNotifications}
-                  onCheckedChange={() => handleSettingChange('emailNotifications')}
+                  onCheckedChange={() =>
+                    handleSettingChange("emailNotifications")
+                  }
                 />
               </div>
               <div className="flex items-center justify-between">
@@ -121,7 +187,9 @@ export default function NotificationsPage() {
                 <Switch
                   id="pushNotifications"
                   checked={settings.pushNotifications}
-                  onCheckedChange={() => handleSettingChange('pushNotifications')}
+                  onCheckedChange={() =>
+                    handleSettingChange("pushNotifications")
+                  }
                 />
               </div>
               <div className="flex items-center justify-between">
@@ -129,7 +197,7 @@ export default function NotificationsPage() {
                 <Switch
                   id="eventReminders"
                   checked={settings.eventReminders}
-                  onCheckedChange={() => handleSettingChange('eventReminders')}
+                  onCheckedChange={() => handleSettingChange("eventReminders")}
                 />
               </div>
               <div className="flex items-center justify-between">
@@ -137,7 +205,7 @@ export default function NotificationsPage() {
                 <Switch
                   id="jobAlerts"
                   checked={settings.jobAlerts}
-                  onCheckedChange={() => handleSettingChange('jobAlerts')}
+                  onCheckedChange={() => handleSettingChange("jobAlerts")}
                 />
               </div>
               <div className="flex items-center justify-between">
@@ -145,7 +213,9 @@ export default function NotificationsPage() {
                 <Switch
                   id="mentorshipRequests"
                   checked={settings.mentorshipRequests}
-                  onCheckedChange={() => handleSettingChange('mentorshipRequests')}
+                  onCheckedChange={() =>
+                    handleSettingChange("mentorshipRequests")
+                  }
                 />
               </div>
               <div className="flex items-center justify-between">
@@ -153,12 +223,21 @@ export default function NotificationsPage() {
                 <Switch
                   id="newsUpdates"
                   checked={settings.newsUpdates}
-                  onCheckedChange={() => handleSettingChange('newsUpdates')}
+                  onCheckedChange={() => handleSettingChange("newsUpdates")}
                 />
               </div>
             </CardContent>
             <CardFooter>
-              <Button className="w-full" onClick={() => toast({ title: 'Settings Saved', description: 'Your notification preferences have been updated.' })}>
+              <Button
+                className="w-full"
+                onClick={() =>
+                  toast({
+                    title: "Settings Saved",
+                    description:
+                      "Your notification preferences have been updated.",
+                  })
+                }
+              >
                 Save Settings
               </Button>
             </CardFooter>
@@ -166,5 +245,5 @@ export default function NotificationsPage() {
         </div>
       </div>
     </div>
-  )
+  );
 }

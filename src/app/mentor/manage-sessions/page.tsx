@@ -1,38 +1,66 @@
-"use client"
+"use client";
 
-import { useState, useEffect } from 'react'
-import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
-import { Input } from '@/components/ui/input'
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { ScrollArea } from '@/components/ui/scroll-area'
-import { Separator } from '@/components/ui/separator'
-import { Mic, MicOff, Video, VideoOff, PhoneOff, MessageSquare, Share2, Users, FileText, Send } from 'lucide-react'
+import { useState, useEffect } from "react";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Separator } from "@/components/ui/separator";
+import {
+  Mic,
+  MicOff,
+  Video,
+  VideoOff,
+  PhoneOff,
+  MessageSquare,
+  Share2,
+  Users,
+  FileText,
+  Send,
+} from "lucide-react";
 
 export default function MentorLiveSession() {
-  const [isMuted, setIsMuted] = useState(false)
-  const [isVideoOff, setIsVideoOff] = useState(false)
-  const [messages, setMessages] = useState([])
-  const [newMessage, setNewMessage] = useState('')
-  const [activeTab, setActiveTab] = useState('chat')
+  const [isMuted, setIsMuted] = useState(false);
+  const [isVideoOff, setIsVideoOff] = useState(false);
+  const [messages, setMessages] = useState([]);
+  const [newMessage, setNewMessage] = useState("");
+  const [activeTab, setActiveTab] = useState("chat");
 
   // Simulating a connection event
   useEffect(() => {
     setTimeout(() => {
       setMessages([
-        { id: 1, sender: 'Mentor', content: 'Welcome to our mentoring session, Alice!' },
-        { id: 2, sender: 'Alice', content: 'Thank you! I\'m excited to discuss my progress.' },
-      ])
-    }, 1000)
-  }, [])
+        {
+          id: 1,
+          sender: "Mentor",
+          content: "Welcome to our mentoring session, Alice!",
+        },
+        {
+          id: 2,
+          sender: "Alice",
+          content: "Thank you! I'm excited to discuss my progress.",
+        },
+      ]);
+    }, 1000);
+  }, []);
 
   const sendMessage = () => {
     if (newMessage.trim()) {
-      setMessages([...messages, { id: messages.length + 1, sender: 'Mentor', content: newMessage }])
-      setNewMessage('')
+      setMessages([
+        ...messages,
+        { id: messages.length + 1, sender: "Mentor", content: newMessage },
+      ]);
+      setNewMessage("");
     }
-  }
+  };
 
   return (
     <div className="container mx-auto py-10 px-4 sm:px-6 lg:px-8">
@@ -45,7 +73,9 @@ export default function MentorLiveSession() {
           </CardHeader>
           <CardContent className="aspect-video bg-muted flex items-center justify-center relative">
             <div className="absolute inset-0 flex items-center justify-center">
-              <p className="text-muted-foreground">Video stream would appear here</p>
+              <p className="text-muted-foreground">
+                Video stream would appear here
+              </p>
             </div>
             <div className="absolute bottom-4 right-4 w-32 h-24 bg-primary flex items-center justify-center">
               <p className="text-primary-foreground">Mentor view</p>
@@ -53,11 +83,27 @@ export default function MentorLiveSession() {
           </CardContent>
           <CardFooter className="flex justify-between">
             <div className="flex space-x-2">
-              <Button variant="outline" size="icon" onClick={() => setIsMuted(!isMuted)}>
-                {isMuted ? <MicOff className="h-4 w-4" /> : <Mic className="h-4 w-4" />}
+              <Button
+                variant="outline"
+                size="icon"
+                onClick={() => setIsMuted(!isMuted)}
+              >
+                {isMuted ? (
+                  <MicOff className="h-4 w-4" />
+                ) : (
+                  <Mic className="h-4 w-4" />
+                )}
               </Button>
-              <Button variant="outline" size="icon" onClick={() => setIsVideoOff(!isVideoOff)}>
-                {isVideoOff ? <VideoOff className="h-4 w-4" /> : <Video className="h-4 w-4" />}
+              <Button
+                variant="outline"
+                size="icon"
+                onClick={() => setIsVideoOff(!isVideoOff)}
+              >
+                {isVideoOff ? (
+                  <VideoOff className="h-4 w-4" />
+                ) : (
+                  <Video className="h-4 w-4" />
+                )}
               </Button>
               <Button variant="outline" size="icon">
                 <Share2 className="h-4 w-4" />
@@ -83,14 +129,22 @@ export default function MentorLiveSession() {
               <CardContent>
                 <ScrollArea className="h-[400px] w-full pr-4">
                   {messages.map((message) => (
-                    <div key={message.id} className={`flex mb-4 ${message.sender === 'Mentor' ? 'justify-end' : ''}`}>
-                      {message.sender !== 'Mentor' && (
+                    <div
+                      key={message.id}
+                      className={`flex mb-4 ${message.sender === "Mentor" ? "justify-end" : ""}`}
+                    >
+                      {message.sender !== "Mentor" && (
                         <Avatar className="h-8 w-8 mr-2">
-                          <AvatarImage src="/placeholder-avatar.jpg" alt={message.sender} />
+                          <AvatarImage
+                            src="/placeholder-avatar.jpg"
+                            alt={message.sender}
+                          />
                           <AvatarFallback>{message.sender[0]}</AvatarFallback>
                         </Avatar>
                       )}
-                      <div className={`rounded-lg p-2 max-w-[70%] ${message.sender === 'Mentor' ? 'bg-primary text-primary-foreground' : 'bg-muted'}`}>
+                      <div
+                        className={`rounded-lg p-2 max-w-[70%] ${message.sender === "Mentor" ? "bg-primary text-primary-foreground" : "bg-muted"}`}
+                      >
                         <p>{message.content}</p>
                       </div>
                     </div>
@@ -104,7 +158,7 @@ export default function MentorLiveSession() {
                     placeholder="Type a message..."
                     value={newMessage}
                     onChange={(e) => setNewMessage(e.target.value)}
-                    onKeyPress={(e) => e.key === 'Enter' && sendMessage()}
+                    onKeyPress={(e) => e.key === "Enter" && sendMessage()}
                   />
                   <Button size="icon" onClick={sendMessage}>
                     <Send className="h-4 w-4" />
@@ -121,7 +175,10 @@ export default function MentorLiveSession() {
                   <div className="space-y-4">
                     <div className="flex items-center">
                       <Avatar className="h-8 w-8 mr-2">
-                        <AvatarImage src="/placeholder-mentor.jpg" alt="Mentor" />
+                        <AvatarImage
+                          src="/placeholder-mentor.jpg"
+                          alt="Mentor"
+                        />
                         <AvatarFallback>M</AvatarFallback>
                       </Avatar>
                       <div>
@@ -167,5 +224,5 @@ export default function MentorLiveSession() {
         </Card>
       </div>
     </div>
-  )
+  );
 }

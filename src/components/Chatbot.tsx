@@ -1,55 +1,63 @@
-"use client"
+"use client";
 
-import { useState, useEffect, useRef } from 'react'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
-import { ScrollArea } from '@/components/ui/scroll-area'
-import { MessageCircle, X, Send, Bot } from 'lucide-react'
-import { motion, AnimatePresence } from 'framer-motion'
+import { useState, useEffect, useRef } from "react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { MessageCircle, X, Send, Bot } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 
 type Message = {
-  role: 'user' | 'assistant'
-  content: string
-}
+  role: "user" | "assistant";
+  content: string;
+};
 
 export default function Chatbot() {
-  const [isOpen, setIsOpen] = useState(false)
-  const [messages, setMessages] = useState<Message[]>([])
-  const [input, setInput] = useState('')
-  const [isTyping, setIsTyping] = useState(false)
-  const scrollAreaRef = useRef<HTMLDivElement>(null)
+  const [isOpen, setIsOpen] = useState(false);
+  const [messages, setMessages] = useState<Message[]>([]);
+  const [input, setInput] = useState("");
+  const [isTyping, setIsTyping] = useState(false);
+  const scrollAreaRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (scrollAreaRef.current) {
-      scrollAreaRef.current.scrollTop = scrollAreaRef.current.scrollHeight
+      scrollAreaRef.current.scrollTop = scrollAreaRef.current.scrollHeight;
     }
-  }, [messages])
+  }, [messages]);
 
   const handleSendMessage = async () => {
-    if (!input.trim()) return
+    if (!input.trim()) return;
 
-    const userMessage: Message = { role: 'user', content: input }
-    setMessages((prev) => [...prev, userMessage])
-    setInput('')
-    setIsTyping(true)
+    const userMessage: Message = { role: "user", content: input };
+    setMessages((prev) => [...prev, userMessage]);
+    setInput("");
+    setIsTyping(true);
 
     try {
       // TODO: Replace with actual API call to ChatGPT
       const response = await new Promise<string>((resolve) => {
         setTimeout(() => {
-          resolve("This is a simulated response from the AI. In a real implementation, this would be the response from ChatGPT.")
-        }, 1000)
-      })
+          resolve(
+            "This is a simulated response from the AI. In a real implementation, this would be the response from ChatGPT.",
+          );
+        }, 1000);
+      });
 
-      const aiMessage: Message = { role: 'assistant', content: response }
-      setMessages((prev) => [...prev, aiMessage])
+      const aiMessage: Message = { role: "assistant", content: response };
+      setMessages((prev) => [...prev, aiMessage]);
     } catch (error) {
-      console.error('Error fetching AI response:', error)
+      console.error("Error fetching AI response:", error);
     } finally {
-      setIsTyping(false)
+      setIsTyping(false);
     }
-  }
+  };
 
   return (
     <>
@@ -99,14 +107,16 @@ export default function Chatbot() {
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ duration: 0.3 }}
                       className={`mb-4 ${
-                        message.role === 'assistant' ? 'text-left' : 'text-right'
+                        message.role === "assistant"
+                          ? "text-left"
+                          : "text-right"
                       }`}
                     >
                       <span
                         className={`inline-block rounded-lg px-3 py-2 ${
-                          message.role === 'assistant'
-                            ? 'bg-primary text-primary-foreground'
-                            : 'bg-muted'
+                          message.role === "assistant"
+                            ? "bg-primary text-primary-foreground"
+                            : "bg-muted"
                         }`}
                       >
                         {message.content}
@@ -129,8 +139,8 @@ export default function Chatbot() {
               <CardFooter>
                 <form
                   onSubmit={(e) => {
-                    e.preventDefault()
-                    handleSendMessage()
+                    e.preventDefault();
+                    handleSendMessage();
                   }}
                   className="flex w-full items-center space-x-2"
                 >
@@ -152,5 +162,5 @@ export default function Chatbot() {
         )}
       </AnimatePresence>
     </>
-  )
+  );
 }

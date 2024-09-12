@@ -1,6 +1,6 @@
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
-import { BarChart, Calendar, Users, Briefcase } from 'lucide-react'
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { BarChart, Calendar, Users, Briefcase } from "lucide-react";
 
 export default function DashboardPage() {
   return (
@@ -19,12 +19,16 @@ export default function DashboardPage() {
         </Card>
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Upcoming Events</CardTitle>
+            <CardTitle className="text-sm font-medium">
+              Upcoming Events
+            </CardTitle>
             <Calendar className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">8</div>
-            <p className="text-xs text-muted-foreground">Next event in 3 days</p>
+            <p className="text-xs text-muted-foreground">
+              Next event in 3 days
+            </p>
           </CardContent>
         </Card>
         <Card>
@@ -44,7 +48,9 @@ export default function DashboardPage() {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">$24,500</div>
-            <p className="text-xs text-muted-foreground">+15% from last month</p>
+            <p className="text-xs text-muted-foreground">
+              +15% from last month
+            </p>
           </CardContent>
         </Card>
       </div>
@@ -53,19 +59,15 @@ export default function DashboardPage() {
           <CardHeader>
             <CardTitle>Recent Activities</CardTitle>
           </CardHeader>
-          <CardContent>
-            {/* Add recent activities list here */}
-          </CardContent>
+          <CardContent>{/* Add recent activities list here */}</CardContent>
         </Card>
         <Card>
           <CardHeader>
             <CardTitle>Upcoming Events</CardTitle>
           </CardHeader>
-          <CardContent>
-            {/* Add upcoming events list here */}
-          </CardContent>
+          <CardContent>{/* Add upcoming events list here */}</CardContent>
         </Card>
       </div>
     </div>
-  )
+  );
 }

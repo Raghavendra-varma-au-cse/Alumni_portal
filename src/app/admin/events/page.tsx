@@ -1,6 +1,23 @@
-"use client"
+"use client";
 
-import React, { useState } from 'react'
+import { useState } from "react";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import {
   Table,
   TableBody,
@@ -8,220 +25,270 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '@/components/ui/table'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
+} from "@/components/ui/table";
 import {
-  DropdownMenu,
-  DropdownMenuCheckboxItem,
-  DropdownMenuContent,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu'
-import { ChevronDown, ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight } from 'lucide-react'
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { Badge } from "@/components/ui/badge";
+import { Search, Calendar, Edit, Trash2 } from "lucide-react";
 
-interface DataTableProps<T> {
-  columns: {
-    accessorKey: keyof T
-    header: string
-    cell?: (info: { getValue: () => any }) => React.ReactNode
-  }[]
-  data: T[]
-  searchable?: boolean
-  pagination?: boolean
-}
+export default function EventsPage() {
+  const [events, setEvents] = useState([
+    {
+      id: 1,
+      name: "Alumni Networking Night",
+      date: "2023-06-15",
+      location: "University Hall",
+      type: "Networking",
+      attendees: 75,
+      status: "Upcoming",
+    },
+    {
+      id: 2,
+      name: "Career Fair 2023",
+      date: "2023-07-10",
+      location: "Sports Complex",
+      type: "Career",
+      attendees: 500,
+      status: "Upcoming",
+    },
+    {
+      id: 3,
+      name: "Homecoming Weekend",
+      date: "2023-10-05",
+      location: "Campus-wide",
+      type: "Social",
+      attendees: 1000,
+      status: "Planning",
+    },
+    {
+      id: 4,
+      name: "Guest Lecture Series",
+      date: "2023-05-20",
+      location: "Auditorium",
+      type: "Educational",
+      attendees: 200,
+      status: "Completed",
+    },
+  ]);
 
-export default function DataTable<T>({
-  columns,
-  data,
-  searchable = true,
-  pagination = true,
-}: DataTableProps<T>) {
-  const [searchTerm, setSearchTerm] = useState('')
-  const [currentPage, setCurrentPage] = useState(1)
-  const [itemsPerPage, setItemsPerPage] = useState(10)
-  const [sortColumn, setSortColumn] = useState<keyof T | null>(null)
-  const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc')
-  const [visibleColumns, setVisibleColumns] = useState<Set<keyof T>>(
-    new Set(columns.map((col) => col.accessorKey))
-  )
+  const [searchTerm, setSearchTerm] = useState("");
+  const [filterType, setFilterType] = useState("");
 
-  // Filter data based on search term
-  const filteredData = React.useMemo(() => {
-    return data.filter((item) =>
-      Object.values(item).some((value) =>
-        value.toString().toLowerCase().includes(searchTerm.toLowerCase())
-      )
-    )
-  }, [data, searchTerm])
+  const filteredEvents = events.filter(
+    (event) =>
+      event.name.toLowerCase().includes(searchTerm.toLowerCase()) &&
+      (filterType === "" || event.type === filterType),
+  );
 
-  // Sort data
-  const sortedData = React.useMemo(() => {
-    if (sortColumn) {
-      return [...filteredData].sort((a, b) => {
-        if (a[sortColumn] < b[sortColumn]) return sortDirection === 'asc' ? -1 : 1
-        if (a[sortColumn] > b[sortColumn]) return sortDirection === 'asc' ? 1 : -1
-        return 0
-      })
-    }
-    return filteredData
-  }, [filteredData, sortColumn, sortDirection])
+  const handleDeleteEvent = (id) => {
+    setEvents(events.filter((e) => e.id !== id));
+  };
 
-  // Paginate data
-  const paginatedData = React.useMemo(() => {
-    const startIndex = (currentPage - 1) * itemsPerPage
-    return sortedData.slice(startIndex, startIndex + itemsPerPage)
-  }, [sortedData, currentPage, itemsPerPage])
-
-  const pageCount = Math.ceil(sortedData.length / itemsPerPage)
-
-  const handleSort = (column: keyof T) => {
-    if (column === sortColumn) {
-      setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc')
-    } else {
-      setSortColumn(column)
-      setSortDirection('asc')
-    }
-  }
-
-  const toggleColumnVisibility = (column: keyof T) => {
-    setVisibleColumns((prev) => {
-      const next = new Set(prev)
-      if (next.has(column)) {
-        next.delete(column)
-      } else {
-        next.add(column)
-      }
-      return next
-    })
-  }
+  const eventTypes = [...new Set(events.map((e) => e.type))];
 
   return (
-    <div className="space-y-4">
-      <div className="flex justify-between items-center">
-        {searchable && (
-          <Input
-            placeholder="Search..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            className="max-w-sm"
-          />
-        )}
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="outline" className="ml-auto">
-              Columns <ChevronDown className="ml-2 h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            {columns.map((column) => (
-              <DropdownMenuCheckboxItem
-                key={column.accessorKey as string}
-                className="capitalize"
-                checked={visibleColumns.has(column.accessorKey)}
-                onCheckedChange={() => toggleColumnVisibility(column.accessorKey)}
-              >
-                {column.header}
-              </DropdownMenuCheckboxItem>
-            ))}
-          </DropdownMenuContent>
-        </DropdownMenu>
-      </div>
-      <div className="rounded-md border">
-        <Table>
-          <TableHeader>
-            <TableRow>
-              {columns.map((column) => (
-                visibleColumns.has(column.accessorKey) && (
-                  <TableHead key={column.accessorKey as string} className="font-medium">
-                    <Button
-                      variant="ghost"
-                      onClick={() => handleSort(column.accessorKey)}
-                    >
-                      {column.header}
-                      {sortColumn === column.accessorKey && (
-                        <ChevronDown
-                          className={`ml-2 h-4 w-4 transition-transform ${
-                            sortDirection === 'desc' ? 'rotate-180' : ''
-                          }`}
-                        />
-                      )}
-                    </Button>
-                  </TableHead>
-                )
-              ))}
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {paginatedData.map((row, rowIndex) => (
-              <TableRow key={rowIndex}>
-                {columns.map((column) => (
-                  visibleColumns.has(column.accessorKey) && (
-                    <TableCell key={column.accessorKey as string}>
-                      {column.cell
-                        ? column.cell({ getValue: () => row[column.accessorKey] })
-                        : row[column.accessorKey]?.toString()}
-                    </TableCell>
-                  )
+    <div className="space-y-6">
+      <h1 className="text-4xl font-bold">Event Management</h1>
+
+      <Card>
+        <CardHeader>
+          <CardTitle>Event Statistics</CardTitle>
+          <CardDescription>Overview of event metrics</CardDescription>
+        </CardHeader>
+        <CardContent className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <Card>
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-sm font-medium">
+                Total Events
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold">{events.length}</div>
+            </CardContent>
+          </Card>
+          <Card>
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-sm font-medium">
+                Upcoming Events
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold">
+                {events.filter((e) => e.status === "Upcoming").length}
+              </div>
+            </CardContent>
+          </Card>
+          <Card>
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-sm font-medium">
+                Total Attendees
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold">
+                {events.reduce((sum, e) => sum + e.attendees, 0)}
+              </div>
+            </CardContent>
+          </Card>
+          <Card>
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-sm font-medium">Event Types</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold">{eventTypes.length}</div>
+            </CardContent>
+          </Card>
+        </CardContent>
+      </Card>
+
+      <Card>
+        <CardHeader>
+          <CardTitle>Event List</CardTitle>
+          <CardDescription>Manage and track alumni events</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="flex flex-col sm:flex-row justify-between items-center mb-4 space-y-2 sm:space-y-0 sm:space-x-2">
+            <div className="flex-1 w-full sm:w-auto">
+              <div className="relative">
+                <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+                <Input
+                  placeholder="Search events"
+                  className="pl-8"
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                />
+              </div>
+            </div>
+            <Select value={filterType} onValueChange={setFilterType}>
+              <SelectTrigger className="w-full sm:w-[180px]">
+                <SelectValue placeholder="Filter by type" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="">All Types</SelectItem>
+                {eventTypes.map((type) => (
+                  <SelectItem key={type} value={type}>
+                    {type}
+                  </SelectItem>
                 ))}
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </div>
-      {pagination && (
-        <div className="flex items-center justify-between">
-          <div className="flex items-center space-x-2">
-            <p className="text-sm font-medium">Rows per page</p>
-            <select
-              value={itemsPerPage}
-              onChange={(e) => setItemsPerPage(Number(e.target.value))}
-              className="h-8 w-16 rounded-md border border-input bg-background"
-            >
-              <option value="5">5</option>
-              <option value="10">10</option>
-              <option value="20">20</option>
-              <option value="50">50</option>
-            </select>
+              </SelectContent>
+            </Select>
+            <Dialog>
+              <DialogTrigger asChild>
+                <Button>
+                  <Calendar className="mr-2 h-4 w-4" />
+                  Create New Event
+                </Button>
+              </DialogTrigger>
+              <DialogContent>
+                <DialogHeader>
+                  <DialogTitle>Create New Event</DialogTitle>
+                  <DialogDescription>
+                    Enter the details of the new event.
+                  </DialogDescription>
+                </DialogHeader>
+                <div className="grid gap-4 py-4">
+                  <div className="grid grid-cols-4 items-center gap-4">
+                    <Label htmlFor="name" className="text-right">
+                      Name
+                    </Label>
+                    <Input id="name" className="col-span-3" />
+                  </div>
+                  <div className="grid grid-cols-4 items-center gap-4">
+                    <Label htmlFor="date" className="text-right">
+                      Date
+                    </Label>
+                    <Input id="date" type="date" className="col-span-3" />
+                  </div>
+                  <div className="grid grid-cols-4 items-center gap-4">
+                    <Label htmlFor="location" className="text-right">
+                      Location
+                    </Label>
+                    <Input id="location" className="col-span-3" />
+                  </div>
+                  <div className="grid grid-cols-4 items-center gap-4">
+                    <Label htmlFor="type" className="text-right">
+                      Type
+                    </Label>
+                    <Select>
+                      <SelectTrigger className="col-span-3">
+                        <SelectValue placeholder="Select type" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {eventTypes.map((type) => (
+                          <SelectItem key={type} value={type}>
+                            {type}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+                </div>
+                <DialogFooter>
+                  <Button type="submit">Create Event</Button>
+                </DialogFooter>
+              </DialogContent>
+            </Dialog>
           </div>
-          <div className="flex items-center space-x-2">
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => setCurrentPage(1)}
-              disabled={currentPage === 1}
-            >
-              <ChevronsLeft className="h-4 w-4" />
-            </Button>
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
-              disabled={currentPage === 1}
-            >
-              <ChevronLeft className="h-4 w-4" />
-            </Button>
-            <span className="text-sm font-medium">
-              Page {currentPage} of {pageCount}
-            </span>
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => setCurrentPage((prev) => Math.min(prev + 1, pageCount))}
-              disabled={currentPage === pageCount}
-            >
-              <ChevronRight className="h-4 w-4" />
-            </Button>
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => setCurrentPage(pageCount)}
-              disabled={currentPage === pageCount}
-            >
-              <ChevronsRight className="h-4 w-4" />
-            </Button>
+          <div className="rounded-md border">
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Name</TableHead>
+                  <TableHead>Date</TableHead>
+                  <TableHead>Location</TableHead>
+                  <TableHead>Type</TableHead>
+                  <TableHead>Attendees</TableHead>
+                  <TableHead>Status</TableHead>
+                  <TableHead className="text-right">Actions</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {filteredEvents.map((event) => (
+                  <TableRow key={event.id}>
+                    <TableCell className="font-medium">{event.name}</TableCell>
+                    <TableCell>{event.date}</TableCell>
+                    <TableCell>{event.location}</TableCell>
+                    <TableCell>{event.type}</TableCell>
+                    <TableCell>{event.attendees}</TableCell>
+                    <TableCell>
+                      <Badge
+                        variant={
+                          event.status === "Upcoming"
+                            ? "default"
+                            : event.status === "Completed"
+                              ? "secondary"
+                              : "outline"
+                        }
+                      >
+                        {event.status}
+                      </Badge>
+                    </TableCell>
+                    <TableCell className="text-right">
+                      <Button variant="ghost" size="sm" className="mr-2">
+                        <Edit className="h-4 w-4" />
+                      </Button>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => handleDeleteEvent(event.id)}
+                      >
+                        <Trash2 className="h-4 w-4" />
+                      </Button>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
           </div>
-        </div>
-      )}
+        </CardContent>
+      </Card>
     </div>
-  )
+  );
 }

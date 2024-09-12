@@ -1,6 +1,6 @@
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
-import { FileText, Video, Headphones } from 'lucide-react'
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { FileText, Video, Headphones } from "lucide-react";
 
 export default function ResourcesPage() {
   return (
@@ -15,7 +15,10 @@ export default function ResourcesPage() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="mb-4">Access comprehensive guides on various career paths and industries.</p>
+            <p className="mb-4">
+              Access comprehensive guides on various career paths and
+              industries.
+            </p>
             <Button>View Guides</Button>
           </CardContent>
         </Card>
@@ -27,7 +30,10 @@ export default function ResourcesPage() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="mb-4">Watch recordings of our past webinars on professional development topics.</p>
+            <p className="mb-4">
+              Watch recordings of our past webinars on professional development
+              topics.
+            </p>
             <Button>Access Webinars</Button>
           </CardContent>
         </Card>
@@ -39,11 +45,13 @@ export default function ResourcesPage() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="mb-4">Listen to inspiring stories and insights from successful alumni.</p>
+            <p className="mb-4">
+              Listen to inspiring stories and insights from successful alumni.
+            </p>
             <Button>Listen Now</Button>
           </CardContent>
         </Card>
       </div>
     </div>
-  )
+  );
 }

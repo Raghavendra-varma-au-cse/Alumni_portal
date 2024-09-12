@@ -1,20 +1,26 @@
-"use client"
+"use client";
 
-import { useState } from 'react'
-import { Card, CardContent } from '@/components/ui/card'
-import { Input } from '@/components/ui/input'
-import { Button } from '@/components/ui/button'
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import { useState } from "react";
+import { Card, CardContent } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 type AlumniProfile = {
-  id: string
-  name: string
-  graduationYear: string
-  field: string
-  company: string
-  location: string
-}
+  id: string;
+  name: string;
+  graduationYear: string;
+  field: string;
+  company: string;
+  location: string;
+};
 
 const alumniData: AlumniProfile[] = [
   {
@@ -34,16 +40,17 @@ const alumniData: AlumniProfile[] = [
     location: "New York, NY",
   },
   // Add more mock data here
-]
+];
 
 export default function AlumniDirectoryPage() {
-  const [searchTerm, setSearchTerm] = useState('')
-  const [filterField, setFilterField] = useState('')
+  const [searchTerm, setSearchTerm] = useState("");
+  const [filterField, setFilterField] = useState("");
 
-  const filteredAlumni = alumniData.filter(alumni => 
-    alumni.name.toLowerCase().includes(searchTerm.toLowerCase()) &&
-    (filterField === '' || alumni.field === filterField)
-  )
+  const filteredAlumni = alumniData.filter(
+    (alumni) =>
+      alumni.name.toLowerCase().includes(searchTerm.toLowerCase()) &&
+      (filterField === "" || alumni.field === filterField),
+  );
 
   return (
     <div className="container mx-auto py-8">
@@ -62,22 +69,29 @@ export default function AlumniDirectoryPage() {
           <SelectContent>
             <SelectItem value="">All Fields</SelectItem>
             <SelectItem value="Computer Science">Computer Science</SelectItem>
-            <SelectItem value="Business Administration">Business Administration</SelectItem>
+            <SelectItem value="Business Administration">
+              Business Administration
+            </SelectItem>
             {/* Add more fields as needed */}
           </SelectContent>
         </Select>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {filteredAlumni.map(alumni => (
+        {filteredAlumni.map((alumni) => (
           <Card key={alumni.id}>
             <CardContent className="flex items-center space-x-4 p-6">
               <Avatar className="h-16 w-16">
-                <AvatarImage src={`https://i.pravatar.cc/64?u=${alumni.id}`} alt={alumni.name} />
+                <AvatarImage
+                  src={`https://i.pravatar.cc/64?u=${alumni.id}`}
+                  alt={alumni.name}
+                />
                 <AvatarFallback>{alumni.name.charAt(0)}</AvatarFallback>
               </Avatar>
               <div className="space-y-2">
                 <h3 className="font-semibold">{alumni.name}</h3>
-                <p className="text-sm text-gray-500">Class of {alumni.graduationYear}</p>
+                <p className="text-sm text-gray-500">
+                  Class of {alumni.graduationYear}
+                </p>
                 <p className="text-sm">{alumni.field}</p>
                 <p className="text-sm">{alumni.company}</p>
                 <p className="text-sm text-gray-500">{alumni.location}</p>
@@ -88,5 +102,5 @@ export default function AlumniDirectoryPage() {
         ))}
       </div>
     </div>
-  )
+  );
 }

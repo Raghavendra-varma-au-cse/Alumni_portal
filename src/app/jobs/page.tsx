@@ -1,7 +1,7 @@
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Briefcase, MapPin } from 'lucide-react'
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Briefcase, MapPin } from "lucide-react";
 
 export default function JobPortalPage() {
   return (
@@ -31,7 +31,10 @@ export default function JobPortalPage() {
                   <MapPin className="mr-2 h-4 w-4" />
                   <span>Location</span>
                 </div>
-                <p className="text-sm">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                <p className="text-sm">
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed
+                  do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                </p>
                 <Button>Apply Now</Button>
               </div>
             </CardContent>
@@ -39,5 +42,5 @@ export default function JobPortalPage() {
         ))}
       </div>
     </div>
-  )
+  );
 }

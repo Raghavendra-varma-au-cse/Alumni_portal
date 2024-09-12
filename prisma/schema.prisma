@@ -1,0 +1,185 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// User model represents both alumni and current students
+model User {
+  id                String    @id @default(cuid())
+  email             String    @unique
+  password          String
+  firstName         String
+  lastName          String
+  graduationYear    Int?
+  major             String?
+  jobTitle          String?
+  company           String?
+  bio               String?
+  profileImageUrl   String?
+  isAlumni          Boolean   @default(false)
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+
+  // Relationships
+  events            Event[]   @relation("Attendees")
+  organizedEvents   Event[]   @relation("Organizer")
+  jobPostings       JobPosting[]
+  mentorships       Mentorship[] @relation("Mentor")
+  mentees           Mentorship[] @relation("Mentee")
+  donations         Donation[]
+  newsArticles      NewsArticle[]
+  sentMessages      Message[] @relation("Sender")
+  receivedMessages  Message[] @relation("Recipient")
+
+  UserSkill UserSkill[]
+}
+
+// Event model for alumni gatherings, workshops, etc.
+model Event {
+  id          String    @id @default(cuid())
+  title       String
+  description String
+  date        DateTime
+  location    String
+  organizerId String
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  // Relationships
+  organizer   User      @relation("Organizer", fields: [organizerId], references: [id])
+  attendees   User[]    @relation("Attendees")
+}
+
+// JobPosting model for career opportunities
+model JobPosting {
+  id          String    @id @default(cuid())
+  title       String
+  company     String
+  location    String
+  description String
+  requirements String
+  salary      String?
+  postedById  String
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  // Relationships
+  postedBy    User      @relation(fields: [postedById], references: [id])
+}
+
+// Mentorship model for alumni-student mentoring relationships
+model Mentorship {
+  id          String    @id @default(cuid())
+  mentorId    String
+  menteeId    String
+  startDate   DateTime
+  endDate     DateTime?
+  status      String    // e.g., "active", "completed", "cancelled"
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  // Relationships
+  mentor      User      @relation("Mentor", fields: [mentorId], references: [id])
+  mentee      User      @relation("Mentee", fields: [menteeId], references: [id])
+}
+
+// Donation model for tracking alumni contributions
+model Donation {
+  id          String    @id @default(cuid())
+  amount      Float
+  donorId     String
+  campaign    String?
+  date        DateTime
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  // Relationships
+  donor       User      @relation(fields: [donorId], references: [id])
+}
+
+// NewsArticle model for alumni and university news
+model NewsArticle {
+  id          String    @id @default(cuid())
+  title       String
+  content     String
+  authorId    String
+  publishDate DateTime
+  category    String    // e.g., "Alumni News", "University Update"
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  // Relationships
+  author      User      @relation(fields: [authorId], references: [id])
+}
+
+// Message model for internal communication between users
+model Message {
+  id          String    @id @default(cuid())
+  content     String
+  senderId    String
+  recipientId String
+  read        Boolean   @default(false)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  // Relationships
+  sender      User      @relation("Sender", fields: [senderId], references: [id])
+  recipient   User      @relation("Recipient", fields: [recipientId], references: [id])
+}
+
+// Skill model for tracking user skills (many-to-many with User)
+model Skill {
+  id          String    @id @default(cuid())
+  name        String    @unique
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  // Relationships
+  users       UserSkill[]
+}
+
+// Junction table for User and Skill (allows adding proficiency level)
+model UserSkill {
+  id          String    @id @default(cuid())
+  userId      String
+  skillId     String
+  proficiency Int       // e.g., 1-5 scale
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  // Relationships
+  user        User      @relation(fields: [userId], references: [id])
+  skill       Skill     @relation(fields: [skillId], references: [id])
+
+  @@unique([userId, skillId])
+}
+
+// AlumniPerk model for exclusive alumni benefits
+model AlumniPerk {
+  id          String    @id @default(cuid())
+  title       String
+  description String
+  provider    String
+  discountCode String?
+  expirationDate DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+// EducationalResource model for lifelong learning materials
+model EducationalResource {
+  id          String    @id @default(cuid())
+  title       String
+  description String
+  type        String    // e.g., "Webinar", "Course", "Article"
+  url         String
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
