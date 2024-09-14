@@ -1,12 +1,12 @@
 # Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
 # More GitHub Actions for Azure: https://github.com/Azure/actions
 
-name: Build and deploy Node.js app to Azure Web App - alumniprotal
+name: Build and deploy Node.js app to Azure Web App - alumniprotal-development
 
 on:
   push:
     branches:
-      - master
+      - master # Changed to deploy on the 'development' branch
   workflow_dispatch:
 
 jobs:
@@ -24,7 +24,7 @@ jobs:
       - name: npm install, run
         run: |
           npm install
-          npm run dev
+          npm run dev # Ensure this command is appropriate for the development environment
 
       - name: Zip artifact for deployment
         run: zip release.zip ./* -r
@@ -39,10 +39,10 @@ jobs:
     runs-on: ubuntu-latest
     needs: build
     environment:
-      name: "Production"
+      name: "Development" # Changed to 'Development'
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
     permissions:
-      id-token: write #This is required for requesting the JWT
+      id-token: write # This is required for requesting the JWT
 
     steps:
       - name: Download artifact from build job
@@ -64,6 +64,6 @@ jobs:
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v3
         with:
-          app-name: "alumniprotal"
-          slot-name: "Production"
+          app-name: "alumniprotal-dev" # Update with the development app name
+          slot-name: "Development" # Ensure this matches your slot/environment settings
           package: .
