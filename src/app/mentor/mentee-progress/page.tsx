@@ -65,7 +65,7 @@ export default function MenteeProgress() {
           <CardHeader>
             <CardTitle>Mentees Overview</CardTitle>
             <CardDescription>
-              Track your mentees' progress and engagement
+              Track your mentees&apos; progress and engagement
             </CardDescription>
           </CardHeader>
           <CardContent>

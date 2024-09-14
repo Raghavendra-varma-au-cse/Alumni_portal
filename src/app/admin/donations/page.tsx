@@ -82,9 +82,9 @@ export default function DonationsPage() {
       (filterCampaign === "" || donation.campaign === filterCampaign),
   );
 
-  const campaigns = [...new Set(donations.map((d) => d.campaign))];
+  const campaigns = [new Set(donations.map((d) => d.campaign))];
 
-  const handleDeleteDonation = (id) => {
+  const handleDeleteDonation = (id: any) => {
     setDonations(donations.filter((d) => d.id !== id));
   };
 

@@ -15,7 +15,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { BarChart, LineChart, PieChart } from "@/components/charts";
+import { BarChart, LineChart, PieChart } from "recharts";
 
 export default function AnalyticsPage() {
   return (

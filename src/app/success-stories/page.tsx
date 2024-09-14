@@ -246,7 +246,7 @@ export default function SuccessStoriesPage() {
             Interactive Alumni Timeline
           </CardTitle>
           <CardDescription>
-            Explore our alumni's journeys through the years
+            Explore our alumni&apos;s journeys through the years
           </CardDescription>
         </CardHeader>
         <CardContent className="p-0">

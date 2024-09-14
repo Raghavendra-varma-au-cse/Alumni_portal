@@ -127,7 +127,7 @@ export default function AlumniNetworkPage() {
     }).addTo(mapRef.current);
 
     updateMarkers();
-  }, []);
+  });
 
   const updateMarkers = useCallback(() => {
     if (!mapRef.current) return;

@@ -16,6 +16,7 @@ import {
   Award,
   Heart,
 } from "lucide-react";
+import Image from "next/image";
 
 export default function HomePage() {
   return (
@@ -185,10 +186,12 @@ export default function HomePage() {
                     <CardTitle>Alumni Success Story</CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <img
+                    <Image
                       src={`/placeholder.svg?text=Alumni+${i}`}
                       alt={`Alumni ${i}`}
                       className="rounded-full w-24 h-24 mx-auto mb-4"
+                      width={96}
+                      height={96}
                     />
                     <p className="text-center mb-4">
                       Lorem ipsum dolor sit amet, consectetur adipiscing elit.

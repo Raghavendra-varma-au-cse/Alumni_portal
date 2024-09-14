@@ -78,7 +78,7 @@ export default function StudentVideoChat() {
           <CardContent className="aspect-video bg-muted flex items-center justify-center relative">
             <div className="absolute inset-0 flex items-center justify-center">
               <p className="text-muted-foreground">
-                Mentor's video stream would appear here
+                Mentor&apos;s video stream would appear here
               </p>
             </div>
             <div className="absolute bottom-4 right-4 w-32 h-24 bg-primary flex items-center justify-center">

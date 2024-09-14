@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { BarChart, LineChart } from "@/components/ui/charts";
+import { BarChart, LineChart } from "recharts";
 import {
   FileText,
   Calendar,
